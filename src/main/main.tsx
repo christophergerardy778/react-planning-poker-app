@@ -1,12 +1,14 @@
 import './main.css';
 
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 
-import { PlanningPokerApp } from '../planning-poker-app/PlanningPokerApp.tsx'
+import { RouterProvider } from 'react-router-dom';
+
+import { router } from './router.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <PlanningPokerApp />
+    <RouterProvider router={router} />
   </StrictMode>,
-)
+);

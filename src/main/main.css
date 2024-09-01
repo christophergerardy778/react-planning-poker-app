@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Notosans';
+    src: url('/font/noto-sans.ttf') format('truetype'),
+         url('/font/noto-sans-italic.woff') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Notosans', 'sans-serif';
+}
