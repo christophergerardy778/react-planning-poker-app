@@ -1,73 +1,30 @@
-import { TextField } from '../../main/components/TextField.tsx';
-import { useFormik } from 'formik';
-import { object, string } from 'yup';
+import { LoginInlineDivisor } from '../components/LoginInlineDivisor.tsx';
+import { LoginForm } from '../components/LoginForm.tsx';
 
 export const Login = () => {
-  const schema = object({
-    name: string().required(),
-  })
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
-
-    validationSchema: schema,
-
-    onSubmit: (values) => {
-      console.log('hola mundo');
-      console.log(values);
-    }
-  });
-
   return (
-    <div className={'mx-auto container mt-6'}>
-      Login
+    <div
+      className={'max-w-[400px] h-screen mx-auto flex flex-col items-center justify-center gap-y-6'}
+    >
+      <div className={'w-full flex flex-col gap-y-2'}>
+        <h1 className={'text-center text-3xl leading-relaxed'}>
+          Te damos la bienvenida a Planning poker
+        </h1>
 
-      <br/>
-      <br/>
+        <p className={'text-center text-lg text-gray-500 font-semibold'}>
+          Para comenzar, inicia sesión.
+        </p>
+      </div>
 
-      <form onSubmit={ formik.handleSubmit } className={'flex flex-col gap-y-4'}>
-        <TextField
-          name={ 'name' }
-          placeholder={'John Doe'}
-          label={'Firstname'}
-          type={ 'text' }
-          value={ formik.values.name }
-          onChange={ formik.handleChange }
-        />
+      <button
+        className={'bg-white text-black font-light select-none border border-gray-300 p-2 rounded-lg w-full'}
+      >
+        Login with google
+      </button>
 
-        <TextField
-          name={ 'email' }
-          label={'Email Address'}
-          type={ 'email' }
-          disabled={ true }
-          value={ formik.values.email }
-          onChange={ formik.handleChange }
-        />
+      <LoginInlineDivisor />
 
-        <TextField
-          name={ 'password' }
-          label={'Password'}
-          type={ 'password' }
-          value={ formik.values.password }
-          onChange={ formik.handleChange }
-        />
-
-        <button type="submit">
-          Login
-        </button>
-
-        <pre>
-          { JSON.stringify(formik.values, null, 2) }
-        </pre>
-
-        <pre>
-          { JSON.stringify(formik.errors, null, 2) }
-        </pre>
-      </form>
+      <LoginForm />
     </div>
   );
-}
+};

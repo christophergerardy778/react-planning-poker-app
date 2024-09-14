@@ -10,6 +10,7 @@ type Props = {
   disabled?: boolean;
   required?: boolean;
   value?: string;
+  error?: string;
   type?: InputType;
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -23,17 +24,26 @@ export const TextField = ({
   value = '',
   onChange,
   name,
+  error,
 }: Props) => {
   const inputClasses = classNames(
     'text-sm rounded-lg px-3 py-2 border border-gray-300',
     {
       'text-gray-500 bg-gray-100': disabled,
+      '!border-red-500 !outline-red-500': error,
+    }
+  );
+
+  const labelClasses = classNames(
+    'text-xs text-gray-500 font-semibold',
+    {
+      '!text-red-500': error,
     }
   );
 
   return (
     <div className={'flex flex-col gap-y-2'}>
-      <span className={'text-xs text-gray-500 font-semibold'}>
+      <span className={ labelClasses }>
         { label }
       </span>
 
@@ -47,6 +57,10 @@ export const TextField = ({
         required={ required }
         onChange={ onChange }
       />
+
+      { error && <span className={'text-xs text-red-500'}>
+        { error }
+      </span>}
     </div>
   )
 }
