@@ -3,5 +3,6 @@
   "email": "Correo electrónico",
   "password": "Contraseña",
   "register": "Registrar",
-  "login_with_google": "Entrar con google"
+  "login_with_google": "Entrar con google",
+  "and": "y"
 }
