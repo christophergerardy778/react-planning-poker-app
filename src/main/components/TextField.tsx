@@ -4,7 +4,8 @@ import { ChangeEvent } from 'react';
 type InputType = 'text' | 'number' | 'password' | 'email';
 
 type Props = {
-  name: string;
+  id?: string;
+  name?: string;
   label?: string;
   placeholder?: string;
   disabled?: boolean;
@@ -22,8 +23,9 @@ export const TextField = ({
   disabled = false,
   required = false,
   value = '',
+  name = '',
+  id = '',
   onChange,
-  name,
   error,
 }: Props) => {
   const inputClasses = classNames(
@@ -48,6 +50,7 @@ export const TextField = ({
       </span>
 
       <input
+        id={id}
         name={ name }
         type={ type }
         placeholder={ placeholder }

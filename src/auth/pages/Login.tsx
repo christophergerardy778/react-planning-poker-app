@@ -1,5 +1,6 @@
 import { LoginInlineDivisor } from '../components/LoginInlineDivisor.tsx';
 import { LoginForm } from '../components/LoginForm.tsx';
+import { Btn } from '../../main/components/Btn.tsx';
 
 export const Login = () => {
   return (
@@ -16,11 +17,12 @@ export const Login = () => {
         </p>
       </div>
 
-      <button
-        className={'bg-white text-black font-light select-none border border-gray-300 p-2 rounded-lg w-full'}
+      <Btn
+        outline
+        className={'border-gray-300 ripple-bg-white w-full'}
       >
         Login with google
-      </button>
+      </Btn>
 
       <LoginInlineDivisor />
 

@@ -1,9 +1,19 @@
 import { TextField } from '../../main/components/TextField.tsx';
 import { useFormik } from 'formik';
 import { loginValidationSchema } from '../validation/LoginValidationSchema.ts';
+import { Btn } from '../../main/components/Btn.tsx';
+import { useFormikError } from '../../main/hooks/useFormikError.ts';
+
+type LoginPayload = {
+  name: string;
+  email: string;
+  password: string;
+}
 
 export const LoginForm = () => {
-  const formik = useFormik({
+  const { showErrorOnTouch } = useFormikError();
+
+  const formik = useFormik<LoginPayload>({
     initialValues: {
       name: '',
       email: '',
@@ -13,7 +23,6 @@ export const LoginForm = () => {
     validationSchema: loginValidationSchema,
 
     onSubmit: (values) => {
-      console.log('hola mundo');
       console.log(values);
     },
   });
@@ -25,20 +34,37 @@ export const LoginForm = () => {
       className={'flex flex-col gap-y-6 w-full'}
     >
       <TextField
+        id={'name'}
+        name={'name'}
+        label={'Name'}
+        value={formik.values.name}
+        onChange={formik.handleChange}
+        error={showErrorOnTouch(formik, 'name')}
+      />
+
+      <TextField
         name={'email'}
         label={'Dirección de email'}
         type={'email'}
         value={formik.values.email}
         onChange={formik.handleChange}
-        error={formik.errors.email}
+        error={showErrorOnTouch(formik, 'email')}
       />
 
-      <button
-        type="submit"
-        className={'bg-blue-500 text-white p-2 rounded-lg select-none'}
+      <TextField
+        name={'password'}
+        label={'Password'}
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        error={showErrorOnTouch(formik, 'password')}
+      />
+
+      <Btn
+        type={'submit'}
+        className={'ripple-bg-blue-500 text-white'}
       >
         Continuar
-      </button>
+      </Btn>
     </form>
   )
 }
