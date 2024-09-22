@@ -1,5 +1,5 @@
-import { LoginInlineDivisor } from '../components/LoginInlineDivisor.tsx';
-import { LoginForm } from '../components/LoginForm.tsx';
+import { InlineDivisor } from '../components/InlineDivisor.tsx';
+import { LoginForm } from '../components/login/LoginForm.tsx';
 import { Btn } from '../../main/components/Btn.tsx';
 
 export const Login = () => {
@@ -24,7 +24,7 @@ export const Login = () => {
         Login with google
       </Btn>
 
-      <LoginInlineDivisor />
+      <InlineDivisor />
 
       <LoginForm />
     </div>

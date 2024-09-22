@@ -10,21 +10,23 @@ type Props = {
   placeholder?: string;
   disabled?: boolean;
   required?: boolean;
-  value?: string;
+  value: string;
   error?: string;
   type?: InputType;
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
 }
 
 export const TextField = ({
   type = 'text',
   placeholder = '',
   label = '',
-  disabled = false,
-  required = false,
   value = '',
   name = '',
   id = '',
+  autoComplete = '',
+  disabled = false,
+  required = false,
   onChange,
   error,
 }: Props) => {
@@ -53,10 +55,11 @@ export const TextField = ({
         id={id}
         name={ name }
         type={ type }
+        value={ value }
         placeholder={ placeholder }
+        autoComplete={ autoComplete }
         className={ inputClasses }
         disabled={ disabled }
-        value={ value }
         required={ required }
         onChange={ onChange }
       />

@@ -1,50 +1,45 @@
-import { TextField } from '../../main/components/TextField.tsx';
+import { TextField } from '../../../main/components/TextField.tsx';
 import { useFormik } from 'formik';
-import { loginValidationSchema } from '../validation/LoginValidationSchema.ts';
-import { Btn } from '../../main/components/Btn.tsx';
-import { useFormikError } from '../../main/hooks/useFormikError.ts';
+import { useTranslation } from 'react-i18next';
+import { Btn } from '../../../main/components/Btn.tsx';
+import {
+  registerValidationSchema
+} from '../../validation/RegisterValidationSchema.ts';
+import { useFormikError } from '../../../main/hooks/useFormikError.ts';
 
-type LoginPayload = {
-  name: string;
-  email: string;
-  password: string;
-}
+export const RegisterForm = () => {
+  const { t } = useTranslation(['common']);
 
-export const LoginForm = () => {
   const { showErrorOnTouch } = useFormikError();
 
-  const formik = useFormik<LoginPayload>({
+  const formik = useFormik({
+    validationSchema: registerValidationSchema,
+
     initialValues: {
       name: '',
       email: '',
       password: '',
     },
 
-    validationSchema: loginValidationSchema,
-
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit() {},
   });
-
 
   return (
     <form
+      className={'flex flex-col gap-y-6'}
       onSubmit={formik.handleSubmit}
-      className={'flex flex-col gap-y-6 w-full'}
     >
       <TextField
-        id={'name'}
+        label={t('name')}
         name={'name'}
-        label={'Name'}
         value={formik.values.name}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'name')}
       />
 
       <TextField
+        label={t('email')}
         name={'email'}
-        label={'Dirección de email'}
         type={'email'}
         value={formik.values.email}
         onChange={formik.handleChange}
@@ -52,8 +47,8 @@ export const LoginForm = () => {
       />
 
       <TextField
+        label={t('password')}
         name={'password'}
-        label={'Password'}
         value={formik.values.password}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'password')}
@@ -63,8 +58,8 @@ export const LoginForm = () => {
         type={'submit'}
         className={'ripple-bg-blue-500 text-white'}
       >
-        Continuar
+        { t('register') }
       </Btn>
     </form>
-  )
-}
+  );
+};
