@@ -1,16 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setToken } from '../store/authSlice.ts';
+import { startRegisterUserWithEmail } from '../store/thunks.ts';
+import { UnknownAction } from '@reduxjs/toolkit';
+import { UserWithEmail } from '../../core/user/domain/UserWithEmail.ts';
+import { clearRegisterError } from '../store/authSlice.ts';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const useAuthSelector = useSelector((state: any) => state.auth);
+  const authSelector = useSelector((state: any) => state.auth);
 
-  const login = () => {
-    dispatch(setToken(''));
+  const registerUserWithEmail = (user: UserWithEmail) => {
+    dispatch(startRegisterUserWithEmail(user) as unknown as UnknownAction);
   };
 
+  const resetRegisterError = () => {
+    dispatch(clearRegisterError());
+  }
+
   return {
-    login,
-    useAuthSelector,
+    registerUserWithEmail,
+    resetRegisterError,
+    authSelector,
   }
 }

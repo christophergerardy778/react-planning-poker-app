@@ -3,14 +3,20 @@ import { container } from '../../core/container.ts';
 import { CreateUserWithEmail } from '../../core/user/app/CreateUserWithEmail.ts';
 import { userTypes } from '../../core/user/infrastructure/di/UserTypes.ts';
 import { Dispatch } from '@reduxjs/toolkit';
-import { setUser } from './authSlice.ts';
+import { clearRegisterError, setUser, showRegisterError } from './authSlice.ts';
 
 export const startRegisterUserWithEmail = (user: UserWithEmail) => async (dispatch: Dispatch) => {
-  const createUserWithEmail = container.get<CreateUserWithEmail>(
-    userTypes.createUserWithEmail
-  );
+  try {
+    dispatch(clearRegisterError());
 
-  const newUser = await createUserWithEmail.run(user);
+    const createUserWithEmail = container.get<CreateUserWithEmail>(
+      userTypes.createUserWithEmail
+    );
 
-  dispatch(setUser(newUser));
+    const newUser = await createUserWithEmail.run(user);
+
+    dispatch(setUser(newUser));
+  } catch (e: any) {
+    dispatch(showRegisterError(e.message));
+  }
 }

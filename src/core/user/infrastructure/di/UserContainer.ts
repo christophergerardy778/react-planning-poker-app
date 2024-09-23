@@ -3,6 +3,7 @@ import { AllUsersRepository } from '../../domain/AllUsersRepository.ts';
 import { userTypes } from './UserTypes.ts';
 import { AllUsersFirebaseRepository } from '../persistence/AllUsersFirebaseRepository.ts';
 import { CreateUserWithEmail } from '../../app/CreateUserWithEmail.ts';
+import { FindUserByEmail } from '../../app/FindUserByEmail.ts';
 
 export const userContainer = new ContainerModule((bind) => {
   bind<AllUsersRepository>(userTypes.allUsersRepository).to(
@@ -11,5 +12,9 @@ export const userContainer = new ContainerModule((bind) => {
 
   bind<CreateUserWithEmail>(userTypes.createUserWithEmail).to(
     CreateUserWithEmail
+  );
+
+  bind<FindUserByEmail>(userTypes.findUserByEmail).to(
+    FindUserByEmail
   );
 });
