@@ -6,9 +6,13 @@ import {
   registerValidationSchema
 } from '../../validation/RegisterValidationSchema.ts';
 import { useFormikError } from '../../../main/hooks/useFormikError.ts';
+import { useDispatch } from 'react-redux';
+import { startRegisterUserWithEmail } from '../../store/thunks.ts';
+import { UnknownAction } from '@reduxjs/toolkit';
 
 export const RegisterForm = () => {
   const { t } = useTranslation(['common']);
+  const dispatch = useDispatch();
 
   const { showErrorOnTouch } = useFormikError();
 
@@ -21,7 +25,9 @@ export const RegisterForm = () => {
       password: '',
     },
 
-    onSubmit() {},
+    onSubmit(values) {
+      dispatch(startRegisterUserWithEmail(values) as unknown as UnknownAction);
+    },
   });
 
   return (
@@ -49,6 +55,7 @@ export const RegisterForm = () => {
       <TextField
         label={t('password')}
         name={'password'}
+        type={'password'}
         value={formik.values.password}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'password')}

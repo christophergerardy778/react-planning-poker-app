@@ -1,4 +1,7 @@
+import './i18n.ts'
 import './main.css';
+
+import 'reflect-metadata';
 
 import { StrictMode, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -8,7 +11,6 @@ import { RouterProvider } from 'react-router-dom';
 
 import { router } from './router.tsx';
 import { persistor, store } from './store.ts';
-import './i18n.ts'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
