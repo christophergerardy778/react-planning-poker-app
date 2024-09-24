@@ -1,15 +1,16 @@
 import { AuthLayoutFooter } from '../components/authLayout/AuthLayoutFooter.tsx';
 import { AuthLayoutHeader } from '../components/authLayout/AuthLayoutHeader.tsx';
+import { Outlet } from 'react-router-dom';
 
-type Props = {
-  children: JSX.Element;
-};
-
-export const AuthLayout = ({ children }: Props) => {
+export const AuthLayout = () => {
   return (
     <div className={'flex flex-col justify-between min-h-screen'}>
       <AuthLayoutHeader />
-      <main>{children}</main>
+
+      <main>
+        <Outlet />
+      </main>
+
       <AuthLayoutFooter />
     </div>
   );

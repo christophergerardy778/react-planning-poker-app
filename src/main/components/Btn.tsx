@@ -9,6 +9,7 @@ interface Props {
   className?: string;
   outline?: boolean;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export const Btn = ({
@@ -16,19 +17,32 @@ export const Btn = ({
   type = 'button',
   className = '',
   outline = false,
-  onClick = () => {},
+  onClick,
+  disabled
 }: Props) => {
   const btnClass = classNames(
-    className,
     'p-2 rounded-lg select-none',
     { 'font-light border': outline },
+    { [className]: !disabled },
+    { 'bg-gray-500/20 !text-gray-400 !cursor-not-allowed': disabled }
   );
+
+  const clickEvent = () => {
+    if (disabled) {
+      return;
+    }
+
+    if (onClick) {
+      onClick();
+    }
+  }
 
   return (
     <button
+      disabled={disabled}
       type={ type }
       className={ btnClass }
-      onClick={ onClick }
+      onClick={ clickEvent }
     >
       { children }
     </button>

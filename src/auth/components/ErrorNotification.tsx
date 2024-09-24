@@ -1,8 +1,13 @@
 type Props = {
+  isVisible: boolean;
   errorMessage: string;
 };
 
 export const ErrorNotification = (props: Props) => {
+  if (!props.isVisible) {
+    return null;
+  }
+
   return (
     <div
       className={

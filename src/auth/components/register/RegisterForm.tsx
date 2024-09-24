@@ -8,7 +8,7 @@ import { useAuth } from '../../hooks/useAuth.ts';
 
 export const RegisterForm = () => {
   const { t } = useTranslation(['common']);
-  const { registerUserWithEmail } = useAuth();
+  const { registerUserWithEmail, authSelector } = useAuth();
   const { showErrorOnTouch } = useFormikError();
 
   const formik = useFormik({
@@ -33,6 +33,7 @@ export const RegisterForm = () => {
         value={formik.values.name}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'name')}
+        disabled={authSelector.loading}
       />
 
       <TextField
@@ -42,6 +43,7 @@ export const RegisterForm = () => {
         value={formik.values.email}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'email')}
+        disabled={authSelector.loading}
       />
 
       <TextField
@@ -51,9 +53,14 @@ export const RegisterForm = () => {
         value={formik.values.password}
         onChange={formik.handleChange}
         error={showErrorOnTouch(formik, 'password')}
+        disabled={authSelector.loading}
       />
 
-      <Btn type={'submit'} className={'ripple-bg-blue-500 text-white'}>
+      <Btn
+        disabled={authSelector.loading}
+        type={'submit'}
+        className={'ripple-bg-blue-500 text-white'}
+      >
         {t('register')}
       </Btn>
     </form>

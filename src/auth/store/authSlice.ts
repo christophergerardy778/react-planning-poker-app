@@ -8,6 +8,8 @@ const initialState = {
     token: '',
   },
 
+  loading: false,
+
   registerError: {
     visible: false,
     error: '',
@@ -23,6 +25,10 @@ const authSlice = createSlice({
       state.user = action.payload
     },
 
+    setLoading(state, action) {
+      state.loading = action.payload;
+    },
+
     showRegisterError(state, action) {
       state.registerError.visible = true;
       state.registerError.error = action.payload;
@@ -35,5 +41,10 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser, showRegisterError, clearRegisterError } = authSlice.actions;
+export const {
+  setUser,
+  setLoading,
+  showRegisterError,
+  clearRegisterError,
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;

@@ -23,10 +23,10 @@ export const TextField = ({
   label = '',
   value = '',
   name = '',
-  id = '',
   autoComplete = '',
   disabled = false,
   required = false,
+  id,
   onChange,
   error,
 }: Props) => {
