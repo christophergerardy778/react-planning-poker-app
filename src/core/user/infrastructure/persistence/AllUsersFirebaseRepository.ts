@@ -1,7 +1,7 @@
 import { AllUsersRepository } from '../../domain/AllUsersRepository.ts';
 import { User } from '../../domain/User.ts';
 import { UserWithEmail } from '../../domain/UserWithEmail.ts';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { firebaseAuth } from '../../../../firebase/firebase.ts';
 import { addDoc, getDocs, limit, query, where } from 'firebase/firestore';
 import { userCollection } from '../../../../firebase/firestore.ts';
@@ -56,5 +56,18 @@ export class AllUsersFirebaseRepository implements AllUsersRepository {
     });
 
     return userFromDb;
+  }
+
+  async loginByEmailAndPassword(email: string, password: string): Promise<User> {
+    const userCredentials = await signInWithEmailAndPassword(firebaseAuth, email, password);
+    const userFromFirestore = await this.findUserByEmail(userCredentials.user.email!);
+    const userToken = await userCredentials.user.getIdToken()
+
+    return {
+      id: userFromFirestore!.id,
+      email: userCredentials.user.email!,
+      name: userFromFirestore!.name,
+      token: userToken,
+    }
   }
 }

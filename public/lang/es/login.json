@@ -1,3 +1,7 @@
 {
-  "login": "Inicia sesión"
+  "login": "Inicia sesión",
+  "form_title": "Te damos la bienvenida a Planning poker",
+  "form_subtitle": "Para comenzar, inicia sesión.",
+  "forgot_your_password": "¿Olvidaste tu contraseña?",
+  "dont_have_an_account": "¿No tienes una cuenta?"
 }

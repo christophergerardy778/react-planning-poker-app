@@ -13,6 +13,11 @@ const initialState = {
   registerError: {
     visible: false,
     error: '',
+  },
+
+  loginError: {
+    visible: false,
+    error: '',
   }
 }
 
@@ -37,7 +42,17 @@ const authSlice = createSlice({
     clearRegisterError(state) {
       state.registerError.visible = false;
       state.registerError.error = '';
-    }
+    },
+
+    showLoginError(state, action) {
+      state.loginError.visible = true;
+      state.loginError.error = action.payload;
+    },
+
+    clearLoginError(state) {
+      state.loginError.visible = false;
+      state.loginError.error = '';
+    },
   },
 });
 
@@ -46,5 +61,7 @@ export const {
   setLoading,
   showRegisterError,
   clearRegisterError,
+  showLoginError,
+  clearLoginError,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

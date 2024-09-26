@@ -1,3 +1,4 @@
 {
-  "user_email_already_exist": "El email ya esta siendo utilizado"
+  "user_email_already_exist": "El email ya esta siendo utilizado",
+  "user_credentials_are_incorrect": "Correo electrónico o contraseña incorrectos"
 }
