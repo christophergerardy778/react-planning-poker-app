@@ -14,7 +14,7 @@ type LoginPayload = {
 }
 
 export const LoginForm = () => {
-  const { t } = useTranslation(['login']);
+  const { t } = useTranslation(['login', 'common']);
   const { loginByEmail, authSelector } = useAuth();
   const { showErrorOnTouch } = useFormikError();
 
@@ -39,7 +39,7 @@ export const LoginForm = () => {
     >
       <TextField
         name={'email'}
-        label={'Dirección de email'}
+        label={t('email', { ns: 'common' })}
         type={'email'}
         value={formik.values.email}
         onChange={formik.handleChange}
@@ -50,7 +50,7 @@ export const LoginForm = () => {
       <div className={'w-full flex flex-col gap-y-3'}>
         <TextField
           name={'password'}
-          label={'Password'}
+          label={t('password', { ns: 'common' })}
           type={'password'}
           value={formik.values.password}
           onChange={formik.handleChange}

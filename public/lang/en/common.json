@@ -5,5 +5,8 @@
   "register": "Register",
   "and": "and",
   "continue_with_google": "Continue with google",
-  "header_subtitle_nav": "Built for agile teams"
+  "header_subtitle_nav": "Built for agile teams",
+  "english_lang": "English",
+  "spanish_lang": "Spanish",
+  "select_language": "Select a language"
 }

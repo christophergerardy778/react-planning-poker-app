@@ -1,4 +1,7 @@
 import { AppLogo } from '../../../main/components/AppLogo.tsx';
+import {
+  LanguageSwitcher
+} from '../../../main/components/LanguageSwitcher.tsx';
 
 export const AuthLayoutHeader = () => {
   return (
@@ -7,7 +10,7 @@ export const AuthLayoutHeader = () => {
         <div className={'flex justify-between items-center'}>
           <AppLogo />
 
-          <div>ES</div>
+          <LanguageSwitcher />
         </div>
       </div>
     </div>

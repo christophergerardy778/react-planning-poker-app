@@ -5,5 +5,8 @@
   "register": "Registrate",
   "and": "y",
   "continue_with_google": "Continuar con google",
-  "header_subtitle_nav": "Creado para equipos ágiles"
+  "header_subtitle_nav": "Creado para equipos ágiles",
+  "english_lang": "Ingles",
+  "spanish_lang": "Español",
+  "select_language": "Seleccionar un idioma"
 }

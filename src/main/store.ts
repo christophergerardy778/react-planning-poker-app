@@ -4,15 +4,17 @@ import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
 import { authReducer } from '../auth/store/authSlice.ts';
+import { appReducer } from './store/AppSlice.ts';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'app'],
 };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  app: appReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
