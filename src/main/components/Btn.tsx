@@ -21,7 +21,7 @@ export const Btn = ({
   disabled
 }: Props) => {
   const btnClass = classNames(
-    'p-2 rounded-lg select-none',
+    'px-6 py-2 rounded-lg select-none',
     { 'font-light border': outline },
     { [className]: !disabled },
     { 'bg-gray-500/20 !text-gray-400 !cursor-not-allowed': disabled }

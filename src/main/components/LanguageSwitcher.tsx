@@ -30,23 +30,26 @@ export const LanguageSwitcher = () => {
 
   return (
     <>
-      <span
-        role={'button'}
+      <button
+        className={'flex justify-center items-center p-2 border rounded-lg'}
         ref={refs.setReference}
         onClick={toggleFloating}
-        className="material-symbols-outlined cursor-pointer select-none"
       >
-        translate
-      </span>
+        <span
+          className="material-symbols-outlined cursor-pointer select-none"
+        >
+          translate
+        </span>
+      </button>
 
       {isOpen && (
         <div
           ref={refs.setFloating}
           style={floatingStyles}
-          className="bg-white rounded-lg border shadow-md w-max min-w-[200px] overflow-auto"
+          className="bg-white rounded-lg border w-max min-w-[200px] overflow-auto"
         >
           <h3 className={'px-6 py-3 text-xs text-gray-500'}>
-            { t('select_language') }
+            {t('select_language')}
           </h3>
 
           <div className={'flex flex-col'}>
