@@ -1,28 +1,24 @@
 type Props = {
   label: string;
+  name?: string;
   value: string;
   checked: boolean;
-  onChange: () => void;
-  onClick?: () => void;
+  onChange: any;
+  onClick?: any;
 }
 
 export const InputRadio = (props: Props) => {
-  const clickHandler = () => {
-    if (props.onClick) {
-      props.onClick();
-    }
-  }
-
   return (
     <div
-      className={'flex gap-x-2 items-center'}
-      onClick={clickHandler}
+      className={'flex gap-x-2 items-center cursor-pointer'}
+      onClick={props.onClick}
     >
       <input
         type={'radio'}
+        name={props.name}
         value={props.value}
         checked={props.checked}
-        onChange={() => props.onChange()}
+        onChange={props.onChange}
       />
 
       <span>{ props.label }</span>

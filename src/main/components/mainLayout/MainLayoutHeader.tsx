@@ -2,9 +2,11 @@ import { useAuth } from '../../../auth/hooks/useAuth.ts';
 import { AppLogo } from '../AppLogo.tsx';
 import { LanguageSwitcher } from '../LanguageSwitcher.tsx';
 import { Btn } from '../Btn.tsx';
+import { useTranslation } from 'react-i18next';
 
 export const MainLayoutHeader = () => {
   const { authSelector } = useAuth();
+  const { t } = useTranslation(['create_new_game']);
 
   return (
     <nav className={'w-full z-[1] bg-white sticky top-0'}>
@@ -19,7 +21,7 @@ export const MainLayoutHeader = () => {
           {authSelector.user.name}
 
           <Btn className={'ripple-bg-blue-500 text-white'}>
-            Create a new game
+            { t('create_new_game') }
           </Btn>
 
           <LanguageSwitcher />
