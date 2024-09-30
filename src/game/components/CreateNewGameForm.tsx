@@ -19,6 +19,7 @@ export const CreateNewGameForm = () => {
       game_name: '',
       voting_system: 'fibonacci',
     },
+
     onSubmit(values) {
       console.log(values);
     },
