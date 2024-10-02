@@ -1,4 +1,5 @@
 {
   "user_email_already_exist": "El email ya esta siendo utilizado",
-  "user_credentials_are_incorrect": "Correo electrónico o contraseña incorrectos"
+  "user_credentials_are_incorrect": "Correo electrónico o contraseña incorrectos",
+  "game_not_found": "Juego no encontrado"
 }

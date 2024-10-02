@@ -5,6 +5,7 @@ type Props = {
   checked: boolean;
   onChange: any;
   onClick?: any;
+  disabled?: boolean;
 }
 
 export const InputRadio = (props: Props) => {
@@ -19,6 +20,7 @@ export const InputRadio = (props: Props) => {
         value={props.value}
         checked={props.checked}
         onChange={props.onChange}
+        disabled={props.disabled}
       />
 
       <span>{ props.label }</span>

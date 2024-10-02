@@ -3,6 +3,7 @@ import { ProtectedRoute } from '../../main/components/ProtectedRoute.tsx';
 import { GameHome } from '../pages/GameHome.tsx';
 import { CreateNewGame } from '../pages/CreateNewGame.tsx';
 import { MainLayout } from '../../main/layout/MainLayout.tsx';
+import { Game } from '../pages/Game.tsx';
 
 export const gameRoutes: RouteObject[] = [
   {
@@ -19,7 +20,11 @@ export const gameRoutes: RouteObject[] = [
           {
             path: 'create-new-game',
             element: <CreateNewGame />
-          }
+          },
+          {
+            path: 'game/:id',
+            element: <Game />
+          },
         ],
       }
     ]

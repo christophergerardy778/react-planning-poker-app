@@ -12,7 +12,7 @@ import { CreateGamePayload, useGame } from '../hooks/useGame.ts';
 export const CreateNewGameForm = () => {
   const { t } = useTranslation(['create_new_game']);
   const { showErrorOnTouch } = useFormikError();
-  const { createGame } = useGame();
+  const { createGame, gameSelector } = useGame();
 
   const formik = useFormik<CreateGamePayload>({
     validationSchema: createNewGameValidationSchema,
@@ -44,6 +44,7 @@ export const CreateNewGameForm = () => {
         value={values.name}
         onChange={handleChange}
         error={showErrorOnTouch(formik, 'name')}
+        disabled={gameSelector.loading}
       />
 
       <InputRadio
@@ -53,6 +54,7 @@ export const CreateNewGameForm = () => {
         onChange={handleChange}
         name={'voting_system'}
         onClick={() => setVotingSystem('fibonacci')}
+        disabled={gameSelector.loading}
       />
 
       <InputRadio
@@ -62,6 +64,7 @@ export const CreateNewGameForm = () => {
         onChange={handleChange}
         name={'voting_system'}
         onClick={() => setVotingSystem('short_fibonacci')}
+        disabled={gameSelector.loading}
       />
 
       <InputRadio
@@ -71,6 +74,7 @@ export const CreateNewGameForm = () => {
         onChange={handleChange}
         name={'voting_system'}
         onClick={() => setVotingSystem('t_shirt')}
+        disabled={gameSelector.loading}
       />
 
       <InputRadio
@@ -80,11 +84,13 @@ export const CreateNewGameForm = () => {
         onChange={handleChange}
         name={'voting_system'}
         onClick={() => setVotingSystem('t_shirt_numbers')}
+        disabled={gameSelector.loading}
       />
 
       <Btn
         type={'submit'}
         className={'ripple-bg-blue-500 text-white w-full'}
+        disabled={gameSelector.loading}
       >
         { t('create_game') }
       </Btn>

@@ -4,6 +4,7 @@ import { LanguageSwitcher } from '../LanguageSwitcher.tsx';
 import { Btn } from '../Btn.tsx';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BtnSquare } from '../BtnSquare.tsx';
 
 export const MainLayoutHeader = () => {
   const createNewGamePath = '/create-new-game';
@@ -29,26 +30,30 @@ export const MainLayoutHeader = () => {
       >
         <AppLogo />
 
-        <div className={'flex gap-x-4 items-center'}>
-          {authSelector.user.name}
+        <div className={'flex gap-x-2 lg:gap-x-4 items-center'}>
+          <span className={'hidden lg:flex'}>
+            {authSelector.user.name}
+          </span>
 
           <Btn
             onClick={navigateToCreateNewGame}
-            className={'ripple-bg-blue-500 text-white'}
+            className={'ripple-bg-blue-500 text-white hidden lg:flex'}
           >
-            { t('create_new_game') }
+            {t('create_new_game')}
           </Btn>
+
+          <BtnSquare
+            className={'flex lg:hidden'}
+            onClick={navigateToCreateNewGame}
+          >
+            <span className="material-symbols-outlined select-none">add</span>
+          </BtnSquare>
 
           <LanguageSwitcher />
 
-          <button
-            onClick={logoutUser}
-            className={'flex justify-center items-center p-2 border rounded-lg'}
-          >
-            <span className="material-symbols-outlined select-none">
-              logout
-            </span>
-          </button>
+          <BtnSquare onClick={logoutUser}>
+            <span className="material-symbols-outlined select-none">logout</span>
+          </BtnSquare>
         </div>
       </div>
     </nav>
