@@ -53,6 +53,15 @@ const authSlice = createSlice({
       state.loginError.visible = false;
       state.loginError.error = '';
     },
+
+    logout(state) {
+      state.user = {
+        id: '',
+        name: '',
+        email: '',
+        token: '',
+      };
+    }
   },
 });
 
@@ -63,5 +72,6 @@ export const {
   clearRegisterError,
   showLoginError,
   clearLoginError,
+  logout,
 } = authSlice.actions;
 export const authReducer = authSlice.reducer;

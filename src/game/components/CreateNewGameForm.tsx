@@ -7,21 +7,23 @@ import {
 } from '../validation/CreateNewGameValidationSchema.ts';
 import { useTranslation } from 'react-i18next';
 import { useFormikError } from '../../main/hooks/useFormikError.ts';
+import { CreateGamePayload, useGame } from '../hooks/useGame.ts';
 
 export const CreateNewGameForm = () => {
   const { t } = useTranslation(['create_new_game']);
   const { showErrorOnTouch } = useFormikError();
+  const { createGame } = useGame();
 
-  const formik = useFormik({
+  const formik = useFormik<CreateGamePayload>({
     validationSchema: createNewGameValidationSchema,
 
     initialValues: {
-      game_name: '',
+      name: '',
       voting_system: 'fibonacci',
     },
 
     onSubmit(values) {
-      console.log(values);
+      createGame(values);
     },
   });
 
@@ -37,11 +39,11 @@ export const CreateNewGameForm = () => {
       className={'flex flex-col gap-y-6'}
     >
       <TextField
-        name={'game_name'}
+        name={'name'}
         label={t('game_name')}
-        value={values.game_name}
+        value={values.name}
         onChange={handleChange}
-        error={showErrorOnTouch(formik, 'game_name')}
+        error={showErrorOnTouch(formik, 'name')}
       />
 
       <InputRadio

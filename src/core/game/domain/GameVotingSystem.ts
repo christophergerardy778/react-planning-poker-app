@@ -1,0 +1,1 @@
+export type GameVotingSystem = 'fibonacci' | 'short_fibonacci' | 't_shirt' | 't_shirt_numbers';

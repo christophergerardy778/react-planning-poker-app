@@ -8,6 +8,7 @@ import { UserWithEmail } from '../../core/user/domain/UserWithEmail.ts';
 import {
   clearLoginError,
   clearRegisterError,
+  logout,
   setLoading,
 } from '../store/authSlice.ts';
 import { useNavigate } from 'react-router-dom';
@@ -37,12 +38,18 @@ export const useAuth = () => {
     dispatch(clearLoginError());
   };
 
+  const logoutUser = () => {
+    dispatch(logout() as unknown as UnknownAction);
+    navigate('/login', { replace: true });
+  };
+
   return {
     isAuthenticated,
     registerUserWithEmail,
     loginByEmail,
     resetRegisterError,
     resetLoginError,
+    logoutUser,
     authSelector,
   }
 }

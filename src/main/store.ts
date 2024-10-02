@@ -5,6 +5,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 
 import { authReducer } from '../auth/store/authSlice.ts';
 import { appReducer } from './store/AppSlice.ts';
+import { gameReducer } from '../game/store/gameSlice.ts';
 
 const persistConfig = {
   key: 'root',
@@ -15,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   app: appReducer,
+  game: gameReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
