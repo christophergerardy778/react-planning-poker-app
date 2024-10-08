@@ -20,8 +20,8 @@ export const GameVotingCards = (props: Props) => {
 
       <div className={'flex justify-between gap-x-4'}>
         {
-          gameVoteTypes[voteSystem].map((vote) => (
-            <GameVotingCard>
+          gameVoteTypes[voteSystem].map((vote, index) => (
+            <GameVotingCard key={`${vote}_${index}`}>
               { vote }
             </GameVotingCard>
           ))

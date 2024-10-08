@@ -7,7 +7,7 @@ export enum GameSystemVoteType {
 
 export const gameVoteTypes = {
   [GameSystemVoteType.FIBONACCI]: [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
-  [GameSystemVoteType.T_SHIRT]: [],
-  [GameSystemVoteType.SHORT_FIBONACCI]: [],
-  [GameSystemVoteType.T_SHIRT_NUMBERS]: [],
+  [GameSystemVoteType.SHORT_FIBONACCI]: [0, 0.5, 1, 2, 3, 5, 8, 13, 20, 40, 100],
+  [GameSystemVoteType.T_SHIRT]: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+  [GameSystemVoteType.T_SHIRT_NUMBERS]: ['S', 'M', 'L', 'XL', '1', '2', '3', '4', '5'],
 };
