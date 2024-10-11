@@ -1,7 +1,8 @@
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 type Props = {
-  children?: JSX.Element | string | number;
+  children?: ReactNode;
   className?: string;
 }
 

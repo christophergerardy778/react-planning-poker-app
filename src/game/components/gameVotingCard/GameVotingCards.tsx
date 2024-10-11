@@ -1,9 +1,9 @@
 import {
   GameSystemVoteType,
   gameVoteTypes,
-} from '../../core/game/domain/GameVoteTypes.ts';
+} from '../../../core/game/domain/GameVoteTypes.ts';
 import { GameVotingCard } from './GameVotingCard.tsx';
-import { GameVotingSystem } from '../../core/game/domain/GameVotingSystem.ts';
+import { GameVotingSystem } from '../../../core/game/domain/GameVotingSystem.ts';
 
 type Props = {
   voteSystem?: GameSystemVoteType | GameVotingSystem;

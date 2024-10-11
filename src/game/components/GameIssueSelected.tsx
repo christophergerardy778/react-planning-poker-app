@@ -1,4 +1,4 @@
-import { GameIssueTags } from './GameIssueTags.tsx';
+import { GameIssueTags } from './gameIssueTag/GameIssueTags.tsx';
 
 type Props = {
   issue: string;
