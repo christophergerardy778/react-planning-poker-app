@@ -1,9 +1,20 @@
 import { Game } from '../../core/game/domain/Game.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { startCreateNewGame, startFindGameById } from '../store/gameThunks.ts';
+import {
+  startCreateGameIssue,
+  startCreateNewGame,
+  startFindGameById,
+  startGetAllIssuesByGameId,
+} from '../store/gameThunks.ts';
 import { UnknownAction } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
-import { GameState } from '../store/gameSlice.ts';
+import {
+  GameState,
+  setCreatingGameIssueVisible,
+} from '../store/gameSlice.ts';
+import {
+  CreateGameIssue
+} from '../../core/gameIssue/domain/CreateGameIssue.ts';
 
 export type CreateGamePayload = Omit<Game, 'id' | 'user_id'>;
 
@@ -22,13 +33,28 @@ export const useGame = () => {
     }, navigate) as unknown as UnknownAction);
   }
 
+  const createGameIssue = (gameIssue: Omit<CreateGameIssue, 'state' | 'tags'>) => {
+    dispatch(startCreateGameIssue(gameIssue) as unknown as UnknownAction);
+  }
+
   const findGameById = (gameId: Game['id']) => {
     dispatch(startFindGameById(gameId) as unknown as UnknownAction);
+  }
+
+  const getGameIssuesByGameId = (gameId: Game['id']) => {
+    dispatch(startGetAllIssuesByGameId(gameId) as unknown as UnknownAction);
+  }
+
+  const toggleGameIssueForm = (value: boolean) => {
+    dispatch(setCreatingGameIssueVisible(value));
   }
 
   return {
     gameSelector,
     createGame,
     findGameById,
+    createGameIssue,
+    getGameIssuesByGameId,
+    toggleGameIssueForm,
   }
 }

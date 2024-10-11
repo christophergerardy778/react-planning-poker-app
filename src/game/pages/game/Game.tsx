@@ -4,15 +4,16 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { GameVotingCards } from '../../components/gameVotingCard/GameVotingCards.tsx';
 import { GameIssueSelected } from '../../components/GameIssueSelected.tsx';
-import { GameIssueCardList } from '../../components/gameIssueCard/GameIssueCardList.tsx';
+import { GameIssueCardList } from '../../components/gameIssueCard/gameIssueCardList/GameIssueCardList.tsx';
 
 export const Game = () => {
   const params = useParams();
-  const { gameSelector, findGameById } = useGame();
+  const { gameSelector, findGameById, getGameIssuesByGameId } = useGame();
 
   useEffect(() => {
     if (!gameSelector.game) {
-      findGameById(params.id!)
+      findGameById(params.id!);
+      getGameIssuesByGameId(params.id!);
     }
   }, [params.id]);
 

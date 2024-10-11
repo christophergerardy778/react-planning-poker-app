@@ -1,18 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Game } from '../../core/game/domain/Game.ts';
+import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
 
 export type GameState = {
   game: Game | null,
   loading: boolean;
+  gameIssues: GameIssue[],
+  isCreatingGameIssueVisible: boolean,
   gameError: {
     visible: boolean,
     error: string,
-  }
+  },
 }
 
 const initialState: GameState = {
   game: null,
   loading: false,
+  gameIssues: [],
+  isCreatingGameIssueVisible: false,
   gameError: {
     error: '',
     visible: false,
@@ -42,6 +47,18 @@ export const gameSlice = createSlice({
       state.gameError.visible = false;
       state.gameError.error = '';
     },
+
+    setGameIssues(state, action) {
+      state.gameIssues = action.payload;
+    },
+
+    addGameIssue(state, action) {
+      state.gameIssues.push(action.payload);
+    },
+
+    setCreatingGameIssueVisible(state, action) {
+      state.isCreatingGameIssueVisible = action.payload;
+    },
   },
 });
 
@@ -50,5 +67,8 @@ export const {
   setLoading,
   showGameError,
   clearGameError,
+  setGameIssues,
+  addGameIssue,
+  setCreatingGameIssueVisible,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;
