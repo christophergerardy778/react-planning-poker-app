@@ -1,7 +1,15 @@
 import { CreateGameIssue } from '../../domain/CreateGameIssue.ts';
 import { GameIssueRepository } from '../../domain/GameIssueRepository.ts';
 import { injectable } from 'inversify';
-import { addDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { gameIssueCollection } from '../../../../firebase/firestore.ts';
 import { GameIssue } from '../../domain/GameIssue.ts';
 import { CreateGameIssueTag } from '../../domain/CreateGameIssueTag.ts';
@@ -44,9 +52,19 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
     const docRef = doc(firestore, this.COLLECTION_NAME, issueTag.issueId);
     const docSnapshot = await getDoc(docRef);
 
-    return {
-      ...docSnapshot.data() as GameIssue,
-      id: docSnapshot.id,
+    const docData = docSnapshot.data() as Omit<GameIssue, 'id'>;
+    const tags = [...docData.tags, issueTag.tagName];
+
+    const docsUpdateData = {
+      ...docData,
+      tags,
     }
+
+    await updateDoc(docRef, docsUpdateData);
+
+    return {
+      id: docSnapshot.id,
+      ...docsUpdateData,
+    };
   }
 }

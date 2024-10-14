@@ -5,9 +5,10 @@ import { CreateGame } from '../../core/game/app/CreateGame.ts';
 import { CreateNewGame } from '../../core/game/domain/CreateNewGame.ts';
 import {
   addGameIssue,
-  setCurrentGame, setGameIssues,
+  setCurrentGame,
+  setGameIssues,
   setLoading,
-  showGameError,
+  showGameError, updateGameIssue,
 } from './gameSlice.ts';
 import { NavigateFunction } from 'react-router-dom';
 import { Game } from '../../core/game/domain/Game.ts';
@@ -22,6 +23,12 @@ import { CreateIssueGame } from '../../core/gameIssue/app/CreateIssueGame.ts';
 import {
   GetIssuesByGameId
 } from '../../core/gameIssue/app/GetIssuesByGameId.ts';
+import {
+  CreateGameIssueTag
+} from '../../core/gameIssue/domain/CreateGameIssueTag.ts';
+import {
+  AddTagToGameIssue
+} from '../../core/gameIssue/app/AddTagToGameIssue.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -77,4 +84,11 @@ export const startGetAllIssuesByGameId = (gameId: Game['id']) => async (dispatch
   const gameIssues = await getIssuesByGameId.run(gameId);
 
   dispatch(setGameIssues(gameIssues));
+}
+
+export const startAddTagToGameIssue = (params: { payload: CreateGameIssueTag, callback: any }) => async (dispatch: Dispatch) => {
+  const addTagToIssue = container.get<AddTagToGameIssue>(gameIssueTypes.addTagToGameIssue);
+  const gameIssue = await addTagToIssue.run(params.payload);
+  dispatch(updateGameIssue({ id: params.payload.issueId, gameIssue }));
+  params.callback();
 }

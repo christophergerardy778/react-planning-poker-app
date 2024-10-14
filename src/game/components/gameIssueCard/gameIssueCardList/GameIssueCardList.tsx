@@ -13,6 +13,7 @@ export const GameIssueCardList = () => {
       <div className={'flex flex-col gap-y-4 overflow-y-auto '}>
         {gameSelector.gameIssues.map((gameIssue) => (
           <GameIssueCard
+            id={gameIssue.id}
             key={gameIssue.id}
             description={gameIssue.description}
             state={gameIssue.state}

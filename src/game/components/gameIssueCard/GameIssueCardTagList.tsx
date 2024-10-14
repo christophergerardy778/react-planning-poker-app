@@ -1,8 +1,10 @@
 import { GameChip } from '../../pages/GameChip.tsx';
 import { GameIssueCardAddTag } from './GameIssueCardAddTag.tsx';
 import { useState } from 'react';
+import { GameIssue } from '../../../core/gameIssue/domain/GameIssue.ts';
 
 type Props = {
+  id: GameIssue['id'];
   tags: string[];
 };
 
@@ -34,6 +36,7 @@ export const GameIssueCardTagList = (props: Props) => {
       </div>
 
       {showAddTagForm && <GameIssueCardAddTag
+        id={props.id}
         onCancel={() => setShowAddTagForm(false)}
       />}
     </div>

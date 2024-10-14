@@ -1,20 +1,28 @@
 import { GameChip } from '../../pages/GameChip.tsx';
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
+import { useGame } from '../../hooks/useGame.ts';
+import { GameIssue } from '../../../core/gameIssue/domain/GameIssue.ts';
 
 type Props = {
+  id: GameIssue['id'];
   onCancel?: any;
 }
 
 export const GameIssueCardAddTag = (props: Props) => {
+  const { addTagToIssue } = useGame();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const formik = useFormik({
     initialValues: {
       tagName: '',
     },
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: (value) => {
+      addTagToIssue({
+        callback: props.onCancel,
+        payload: { issueId: props.id, tagName: value.tagName },
+      })
     },
   });
 

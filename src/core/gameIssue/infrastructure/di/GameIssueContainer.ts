@@ -6,6 +6,7 @@ import {
 } from '../persistence/GameIssueFirebaseRepository.ts';
 import { CreateIssueGame } from '../../app/CreateIssueGame.ts';
 import { GetIssuesByGameId } from '../../app/GetIssuesByGameId.ts';
+import { AddTagToGameIssue } from '../../app/AddTagToGameIssue.ts';
 
 export const gameIssueContainer = new ContainerModule((bind) => {
   bind<GameIssueRepository>(gameIssueTypes.gameIssueRepository).to(
@@ -18,5 +19,9 @@ export const gameIssueContainer = new ContainerModule((bind) => {
 
   bind<GetIssuesByGameId>(gameIssueTypes.getIssuesByGameId).to(
     GetIssuesByGameId
+  );
+
+  bind<AddTagToGameIssue>(gameIssueTypes.addTagToGameIssue).to(
+    AddTagToGameIssue
   );
 });

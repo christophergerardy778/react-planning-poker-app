@@ -1,6 +1,7 @@
 import { Game } from '../../core/game/domain/Game.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  startAddTagToGameIssue,
   startCreateGameIssue,
   startCreateNewGame,
   startFindGameById,
@@ -15,6 +16,9 @@ import {
 import {
   CreateGameIssue
 } from '../../core/gameIssue/domain/CreateGameIssue.ts';
+import {
+  CreateGameIssueTag
+} from '../../core/gameIssue/domain/CreateGameIssueTag.ts';
 
 export type CreateGamePayload = Omit<Game, 'id' | 'user_id'>;
 
@@ -49,6 +53,10 @@ export const useGame = () => {
     dispatch(setCreatingGameIssueVisible(value));
   }
 
+  const addTagToIssue = (params: { payload: CreateGameIssueTag, callback: any }) => {
+    dispatch(startAddTagToGameIssue(params) as any);
+  }
+
   return {
     gameSelector,
     createGame,
@@ -56,5 +64,6 @@ export const useGame = () => {
     createGameIssue,
     getGameIssuesByGameId,
     toggleGameIssueForm,
+    addTagToIssue,
   }
 }

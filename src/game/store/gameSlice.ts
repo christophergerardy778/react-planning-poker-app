@@ -59,6 +59,14 @@ export const gameSlice = createSlice({
     setCreatingGameIssueVisible(state, action) {
       state.isCreatingGameIssueVisible = action.payload;
     },
+
+    updateGameIssue(state, action) {
+      const index = state.gameIssues.findIndex(
+        (gameIssue) => gameIssue.id === action.payload.id
+      );
+
+      state.gameIssues[index] = action.payload.gameIssue;
+    }
   },
 });
 
@@ -70,5 +78,6 @@ export const {
   setGameIssues,
   addGameIssue,
   setCreatingGameIssueVisible,
+  updateGameIssue,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;
