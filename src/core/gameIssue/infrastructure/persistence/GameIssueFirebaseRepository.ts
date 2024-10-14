@@ -1,12 +1,16 @@
 import { CreateGameIssue } from '../../domain/CreateGameIssue.ts';
 import { GameIssueRepository } from '../../domain/GameIssueRepository.ts';
 import { injectable } from 'inversify';
-import { addDoc, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { gameIssueCollection } from '../../../../firebase/firestore.ts';
 import { GameIssue } from '../../domain/GameIssue.ts';
+import { CreateGameIssueTag } from '../../domain/CreateGameIssueTag.ts';
+import { firestore } from '../../../../firebase/firebase.ts';
 
 @injectable()
 export class GameIssueFirebaseRepository implements GameIssueRepository {
+  private readonly COLLECTION_NAME = "gameIssues";
+
   async create(issue: CreateGameIssue): Promise<GameIssue> {
     const gameIssueRef = await addDoc(gameIssueCollection, issue);
 
@@ -19,14 +23,12 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
   async findAllById(id: string): Promise<GameIssue[]> {
     const findAllByIdQuery = query(
       gameIssueCollection,
-      where('gameId', '==', id),
+      where('gameId', '==', id)
     );
 
     const gameIssueDocs: GameIssue[] = [];
 
-    const querySnapshot = await getDocs(
-      findAllByIdQuery
-    );
+    const querySnapshot = await getDocs(findAllByIdQuery);
 
     querySnapshot.forEach((doc) => {
       gameIssueDocs.push({
@@ -36,5 +38,15 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
     });
 
     return gameIssueDocs;
+  }
+
+  async addTag(issueTag: CreateGameIssueTag): Promise<GameIssue> {
+    const docRef = doc(firestore, this.COLLECTION_NAME, issueTag.issueId);
+    const docSnapshot = await getDoc(docRef);
+
+    return {
+      ...docSnapshot.data() as GameIssue,
+      id: docSnapshot.id,
+    }
   }
 }
