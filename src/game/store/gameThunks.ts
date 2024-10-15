@@ -4,7 +4,7 @@ import { gameTypes } from '../../core/game/infrastructure/di/GameTypes.ts';
 import { CreateGame } from '../../core/game/app/CreateGame.ts';
 import { CreateNewGame } from '../../core/game/domain/CreateNewGame.ts';
 import {
-  addGameIssue,
+  addGameIssue, deleteGameIssueById,
   setCurrentGame,
   setGameIssues,
   setLoading,
@@ -29,6 +29,14 @@ import {
 import {
   AddTagToGameIssue
 } from '../../core/gameIssue/app/AddTagToGameIssue.ts';
+import {
+  RemoveGameIssueTag
+} from '../../core/gameIssue/domain/RemoveGameIssueTag.ts';
+import {
+  RemoveTagToGameIssue
+} from '../../core/gameIssue/app/RemoveTagToGameIssue.ts';
+import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
+import { DeleteGameIssue } from '../../core/gameIssue/app/DeleteGameIssue.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -91,4 +99,24 @@ export const startAddTagToGameIssue = (params: { payload: CreateGameIssueTag, ca
   const gameIssue = await addTagToIssue.run(params.payload);
   dispatch(updateGameIssue({ id: params.payload.issueId, gameIssue }));
   params.callback();
+}
+
+export const startRemoveTagToGameIssue = (params: RemoveGameIssueTag) => async (dispatch: Dispatch) => {
+  const removeTagToGameIssue = container.get<RemoveTagToGameIssue>(
+    gameIssueTypes.removeTagToGameIssue
+  );
+
+  const gameIssue = await removeTagToGameIssue.run(params);
+
+  dispatch(updateGameIssue({ id: params.issueId, gameIssue }));
+}
+
+export const startDeleteGameIssue = (gameIssueId: GameIssue['id']) => async (dispatch: Dispatch) => {
+  const deleteGameIssue = container.get<DeleteGameIssue>(
+    gameIssueTypes.deleteGameIssue
+  );
+
+  await deleteGameIssue.run(gameIssueId);
+
+  dispatch(deleteGameIssueById(gameIssueId))
 }

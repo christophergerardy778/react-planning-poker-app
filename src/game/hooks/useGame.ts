@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   startAddTagToGameIssue,
   startCreateGameIssue,
-  startCreateNewGame,
+  startCreateNewGame, startDeleteGameIssue,
   startFindGameById,
-  startGetAllIssuesByGameId,
+  startGetAllIssuesByGameId, startRemoveTagToGameIssue,
 } from '../store/gameThunks.ts';
 import { UnknownAction } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,10 @@ import {
 import {
   CreateGameIssueTag
 } from '../../core/gameIssue/domain/CreateGameIssueTag.ts';
+import {
+  RemoveGameIssueTag
+} from '../../core/gameIssue/domain/RemoveGameIssueTag.ts';
+import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
 
 export type CreateGamePayload = Omit<Game, 'id' | 'user_id'>;
 
@@ -57,6 +61,14 @@ export const useGame = () => {
     dispatch(startAddTagToGameIssue(params) as any);
   }
 
+  const removeTagToIssue = (params: RemoveGameIssueTag) => {
+    dispatch(startRemoveTagToGameIssue(params) as any);
+  }
+
+  const deleteGameIssue = (gameIssueId: GameIssue['id']) => {
+    dispatch(startDeleteGameIssue(gameIssueId) as any);
+  }
+
   return {
     gameSelector,
     createGame,
@@ -65,5 +77,7 @@ export const useGame = () => {
     getGameIssuesByGameId,
     toggleGameIssueForm,
     addTagToIssue,
+    deleteGameIssue,
+    removeTagToIssue,
   }
 }

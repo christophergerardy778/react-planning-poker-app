@@ -7,6 +7,8 @@ import {
 import { CreateIssueGame } from '../../app/CreateIssueGame.ts';
 import { GetIssuesByGameId } from '../../app/GetIssuesByGameId.ts';
 import { AddTagToGameIssue } from '../../app/AddTagToGameIssue.ts';
+import { RemoveTagToGameIssue } from '../../app/RemoveTagToGameIssue.ts';
+import { DeleteGameIssue } from '../../app/DeleteGameIssue.ts';
 
 export const gameIssueContainer = new ContainerModule((bind) => {
   bind<GameIssueRepository>(gameIssueTypes.gameIssueRepository).to(
@@ -23,5 +25,13 @@ export const gameIssueContainer = new ContainerModule((bind) => {
 
   bind<AddTagToGameIssue>(gameIssueTypes.addTagToGameIssue).to(
     AddTagToGameIssue
+  );
+
+  bind<RemoveTagToGameIssue>(gameIssueTypes.removeTagToGameIssue).to(
+    RemoveTagToGameIssue,
+  );
+
+  bind<DeleteGameIssue>(gameIssueTypes.deleteGameIssue).to(
+    DeleteGameIssue,
   );
 });

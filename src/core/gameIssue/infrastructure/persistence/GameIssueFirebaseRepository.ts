@@ -2,7 +2,7 @@ import { CreateGameIssue } from '../../domain/CreateGameIssue.ts';
 import { GameIssueRepository } from '../../domain/GameIssueRepository.ts';
 import { injectable } from 'inversify';
 import {
-  addDoc,
+  addDoc, deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -14,10 +14,11 @@ import { gameIssueCollection } from '../../../../firebase/firestore.ts';
 import { GameIssue } from '../../domain/GameIssue.ts';
 import { CreateGameIssueTag } from '../../domain/CreateGameIssueTag.ts';
 import { firestore } from '../../../../firebase/firebase.ts';
+import { RemoveGameIssueTag } from '../../domain/RemoveGameIssueTag.ts';
 
 @injectable()
 export class GameIssueFirebaseRepository implements GameIssueRepository {
-  private readonly COLLECTION_NAME = "gameIssues";
+  private readonly COLLECTION_NAME = 'gameIssues';
 
   async create(issue: CreateGameIssue): Promise<GameIssue> {
     const gameIssueRef = await addDoc(gameIssueCollection, issue);
@@ -40,7 +41,7 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
 
     querySnapshot.forEach((doc) => {
       gameIssueDocs.push({
-        ...doc.data() as GameIssue,
+        ...(doc.data() as GameIssue),
         id: doc.id,
       });
     });
@@ -58,7 +59,7 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
     const docsUpdateData = {
       ...docData,
       tags,
-    }
+    };
 
     await updateDoc(docRef, docsUpdateData);
 
@@ -66,5 +67,29 @@ export class GameIssueFirebaseRepository implements GameIssueRepository {
       id: docSnapshot.id,
       ...docsUpdateData,
     };
+  }
+
+  async removeTag(payload: RemoveGameIssueTag): Promise<GameIssue> {
+    const docRef = doc(firestore, this.COLLECTION_NAME, payload.issueId);
+    const docSnapshot = await getDoc(docRef);
+
+    const docData = docSnapshot.data() as Omit<GameIssue, 'id'>;
+
+    const docUpdated: Omit<GameIssue, 'id'> = {
+      ...docData,
+      tags: docData.tags.filter((tag) => tag !== payload.tagName),
+    };
+
+    await updateDoc(docRef, docUpdated);
+
+    return {
+      id: docSnapshot.id,
+      ...docUpdated,
+    };
+  }
+
+  async deleteById(id: GameIssue['id']): Promise<void> {
+    const gameDocReference = doc(firestore, this.COLLECTION_NAME, id);
+    await deleteDoc(gameDocReference);
   }
 }
