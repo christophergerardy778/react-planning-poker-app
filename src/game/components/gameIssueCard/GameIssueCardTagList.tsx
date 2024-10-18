@@ -1,6 +1,6 @@
 import { GameChip } from '../../pages/GameChip.tsx';
 import { GameIssueCardAddTag } from './GameIssueCardAddTag.tsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GameIssue } from '../../../core/gameIssue/domain/GameIssue.ts';
 import { useGame } from '../../hooks/useGame.ts';
 
@@ -10,22 +10,33 @@ type Props = {
 };
 
 export const GameIssueCardTagList = (props: Props) => {
+  const [isIssueOnVoting, setIsIssueOnVoating] = useState(false);
   const [showAddTagForm, setShowAddTagForm] = useState(false);
-  const { removeTagToIssue } = useGame();
+  const { gameSelector, removeTagToIssue } = useGame();
 
   const removeTag = (tagName: string) => {
     removeTagToIssue({
       tagName,
       issueId: props.id,
     })
-  }
+  };
+
+  useEffect(() => {
+    const { game, gameIssues } = gameSelector;
+
+    const gameIssueSelected = gameIssues.find(
+      (gameIssue) => gameIssue.id === game!.selectedIssueId
+    );
+
+    setIsIssueOnVoating(gameIssueSelected !== undefined);
+  }, [gameSelector.game, gameSelector.gameIssues]);
 
   return (
     <div className={'flex flex-col gap-2'}>
       <div className={'flex flex-wrap gap-2'}>
         {props.tags.map((tag, index) => (
           <GameChip
-            clearable
+            clearable={!isIssueOnVoting}
             key={`${tag}_${index}`}
             onClear={() => removeTag(tag)}
           >

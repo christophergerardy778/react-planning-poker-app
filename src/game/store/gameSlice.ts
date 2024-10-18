@@ -72,6 +72,10 @@ export const gameSlice = createSlice({
       state.gameIssues = state.gameIssues.filter(
         (issue) => issue.id !== action.payload
       );
+    },
+
+    selectGameIssueToCurrentGame(state, action) {
+      state.game!.selectedIssueId = action.payload;
     }
   },
 });
@@ -86,5 +90,6 @@ export const {
   setCreatingGameIssueVisible,
   updateGameIssue,
   deleteGameIssueById,
+  selectGameIssueToCurrentGame,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;

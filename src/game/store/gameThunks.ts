@@ -4,7 +4,7 @@ import { gameTypes } from '../../core/game/infrastructure/di/GameTypes.ts';
 import { CreateGame } from '../../core/game/app/CreateGame.ts';
 import { CreateNewGame } from '../../core/game/domain/CreateNewGame.ts';
 import {
-  addGameIssue, deleteGameIssueById,
+  addGameIssue, deleteGameIssueById, selectGameIssueToCurrentGame,
   setCurrentGame,
   setGameIssues,
   setLoading,
@@ -37,6 +37,12 @@ import {
 } from '../../core/gameIssue/app/RemoveTagToGameIssue.ts';
 import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
 import { DeleteGameIssue } from '../../core/gameIssue/app/DeleteGameIssue.ts';
+import {
+  UpdateGameIssueToVote
+} from '../../core/game/app/UpdateGameIssueToVote.ts';
+import {
+  SelectIssueIdToGame
+} from '../../core/game/domain/SelectIssueIdToGame.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -119,4 +125,14 @@ export const startDeleteGameIssue = (gameIssueId: GameIssue['id']) => async (dis
   await deleteGameIssue.run(gameIssueId);
 
   dispatch(deleteGameIssueById(gameIssueId))
+}
+
+export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => async (dispatch: Dispatch) => {
+  const updateGameIssueToVote = container.get<UpdateGameIssueToVote>(
+    gameTypes.updateGameIssueToVote
+  );
+
+  await updateGameIssueToVote.run(payload);
+
+  dispatch(selectGameIssueToCurrentGame(payload.issueId));
 }

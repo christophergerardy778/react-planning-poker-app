@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   startAddTagToGameIssue,
   startCreateGameIssue,
-  startCreateNewGame, startDeleteGameIssue,
+  startCreateNewGame,
+  startDeleteGameIssue,
   startFindGameById,
-  startGetAllIssuesByGameId, startRemoveTagToGameIssue,
+  startGetAllIssuesByGameId,
+  startRemoveTagToGameIssue,
+  startSelectGameIssueToVote,
 } from '../store/gameThunks.ts';
 import { UnknownAction } from '@reduxjs/toolkit';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +26,9 @@ import {
   RemoveGameIssueTag
 } from '../../core/gameIssue/domain/RemoveGameIssueTag.ts';
 import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
+import {
+  SelectIssueIdToGame
+} from '../../core/game/domain/SelectIssueIdToGame.ts';
 
 export type CreateGamePayload = Omit<Game, 'id' | 'user_id'>;
 
@@ -69,6 +75,10 @@ export const useGame = () => {
     dispatch(startDeleteGameIssue(gameIssueId) as any);
   }
 
+  const selectIssueToVoteInGame = (payload: SelectIssueIdToGame) => {
+    dispatch(startSelectGameIssueToVote(payload) as any);
+  }
+
   return {
     gameSelector,
     createGame,
@@ -79,5 +89,6 @@ export const useGame = () => {
     addTagToIssue,
     deleteGameIssue,
     removeTagToIssue,
+    selectIssueToVoteInGame,
   }
 }

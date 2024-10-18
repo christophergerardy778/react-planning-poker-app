@@ -4,6 +4,7 @@ import { AllGamesFirebaseRepository } from '../persistence/AllGamesFirebaseRepos
 import { AllGamesRepository } from '../../domain/AllGamesRepository.ts';
 import { CreateGame } from '../../app/CreateGame.ts';
 import { FindGameById } from '../../app/FindGameById.ts';
+import { UpdateGameIssueToVote } from '../../app/UpdateGameIssueToVote.ts';
 
 export const gameContainer = new ContainerModule((bind) => {
   bind<AllGamesRepository>(gameTypes.allGamesRepository).to(
@@ -16,5 +17,9 @@ export const gameContainer = new ContainerModule((bind) => {
 
   bind<FindGameById>(gameTypes.findGameById).to(
     FindGameById
+  );
+
+  bind<UpdateGameIssueToVote>(gameTypes.updateGameIssueToVote).to(
+    UpdateGameIssueToVote
   );
 });

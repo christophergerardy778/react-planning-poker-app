@@ -8,5 +8,7 @@
   "header_subtitle_nav": "Creado para equipos ágiles",
   "english_lang": "Ingles",
   "spanish_lang": "Español",
-  "select_language": "Seleccionar un idioma"
+  "select_language": "Seleccionar un idioma",
+  "save": "Guardar",
+  "cancel": "Cancelar"
 }

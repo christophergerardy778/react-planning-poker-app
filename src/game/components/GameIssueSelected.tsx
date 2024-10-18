@@ -1,11 +1,34 @@
 import { GameIssueTags } from './gameIssueTag/GameIssueTags.tsx';
+import { useGame } from '../hooks/useGame.ts';
+import { useEffect, useState } from 'react';
+import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
 
-type Props = {
-  issue: string;
-}
+const initialState: GameIssue = {
+  id: '',
+  state: 'pending',
+  tags: [],
+  gameId: '',
+  description: '',
+};
 
-export const GameIssueSelected = (props: Props) => {
-  const tags = ['Frontend', 'Backend', 'Feature'];
+export const GameIssueSelected = () => {
+  const { gameSelector } = useGame();
+
+  const [gameIssue, selectGameIssue] = useState<GameIssue>(initialState);
+
+  useEffect(() => {
+    const { game, gameIssues } = gameSelector;
+
+    const gameIssueSelected = gameIssues.find(
+      (gameIssue) => gameIssue.id === game!.selectedIssueId
+    );
+
+    if (!gameIssueSelected) {
+      selectGameIssue(initialState);
+    } else {
+      selectGameIssue(gameIssueSelected);
+    }
+  }, [gameSelector.game, gameSelector.gameIssues])
 
   return (
     <div
@@ -15,11 +38,13 @@ export const GameIssueSelected = (props: Props) => {
     >
       <h3 className={'text-blue-500 font-bold'}>Voting</h3>
 
-      <span className={'text-sm'}>{props.issue}</span>
+      <span className={'text-sm'}>
+        { gameIssue.description }
+      </span>
 
-      {tags.length !== 0 && <hr />}
+      {gameIssue.tags.length !== 0 && <hr />}
 
-      <GameIssueTags tags={tags} />
+      <GameIssueTags tags={gameIssue.tags} />
     </div>
   );
 };

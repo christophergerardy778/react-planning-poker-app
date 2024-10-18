@@ -6,8 +6,10 @@ import {
 } from '../validation/CreateGameIssueValidationSchema.ts';
 import { useGame } from '../hooks/useGame.ts';
 import { useFormikError } from '../../main/hooks/useFormikError.ts';
+import { useTranslation } from 'react-i18next';
 
 export const CreateGameIssue = () => {
+  const { t } = useTranslation(["game", "common"]);
   const { gameSelector, createGameIssue, toggleGameIssueForm } = useGame();
   const { showErrorOnTouch } = useFormikError();
 
@@ -36,7 +38,7 @@ export const CreateGameIssue = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <TextArea
-        label={'Issue description'}
+        label={t('issue_description')}
         name={'description'}
         value={formik.values.description}
         onChange={formik.handleChange}
@@ -48,7 +50,7 @@ export const CreateGameIssue = () => {
           type={'submit'}
           className={'ripple-bg-blue-500 text-white w-full'}
         >
-          Save
+          { t('save', { ns: 'common' }) }
         </Btn>
 
         <Btn
@@ -56,7 +58,7 @@ export const CreateGameIssue = () => {
           onClick={hideGameIssueForm}
           className={'border-blue-500 text-blue-500 w-full'}
         >
-          Cancel
+          { t('cancel', { ns: 'common' }) }
         </Btn>
       </div>
     </form>

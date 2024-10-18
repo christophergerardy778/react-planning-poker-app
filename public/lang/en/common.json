@@ -8,5 +8,7 @@
   "header_subtitle_nav": "Built for agile teams",
   "english_lang": "English",
   "spanish_lang": "Spanish",
-  "select_language": "Select a language"
+  "select_language": "Select a language",
+  "save": "Save",
+  "cancel": "Cancel"
 }

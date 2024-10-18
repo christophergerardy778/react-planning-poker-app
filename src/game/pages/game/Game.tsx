@@ -3,8 +3,8 @@ import { useGame } from '../../hooks/useGame.ts';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { GameVotingCards } from '../../components/gameVotingCard/GameVotingCards.tsx';
-import { GameIssueSelected } from '../../components/GameIssueSelected.tsx';
 import { GameIssueCardList } from '../../components/gameIssueCard/gameIssueCardList/GameIssueCardList.tsx';
+import { GameIssueSelection } from '../../components/GameIssueSelection.tsx';
 
 export const Game = () => {
   const params = useParams();
@@ -26,15 +26,12 @@ export const Game = () => {
               {gameSelector.game?.name}
             </h1>
 
-            <GameIssueSelected
-              issue={
-                'Error si cantidad minima definida es mayor a la cantidad de personas en traslado'
-              }
-            />
+            <GameIssueSelection />
 
             <div
               className={'flex w-full h-full justify-center items-center'}
-            ></div>
+            >
+            </div>
 
             <GameVotingCards
               voteSystem={gameSelector.game?.voting_system}

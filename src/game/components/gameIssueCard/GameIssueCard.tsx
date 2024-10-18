@@ -4,6 +4,7 @@ import { GameIssueState } from '../../../core/game/domain/GameIssueState.ts';
 import { GameIssueCardTagList } from './GameIssueCardTagList.tsx';
 import { GameIssue } from '../../../core/gameIssue/domain/GameIssue.ts';
 import { useGame } from '../../hooks/useGame.ts';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   id: GameIssue['id'];
@@ -13,13 +14,21 @@ type Props = {
 };
 
 export const GameIssueCard = (props: Props) => {
-  const { deleteGameIssue } = useGame();
+  const { t } = useTranslation(["game"]);
+  const { gameSelector, deleteGameIssue, selectIssueToVoteInGame } = useGame();
+
+  const selectIssueToVote = () => {
+    selectIssueToVoteInGame({
+      issueId: props.id,
+      gameId: gameSelector.game!.id,
+    });
+  }
 
   return (
     <AppCard>
       <div className={'flex flex-col gap-y-4'}>
         <div className={'flex justify-between items-center'}>
-          <GameChip>{props.state}</GameChip>
+          <GameChip>{ t(props.state) }</GameChip>
 
           <button
             onClick={() => deleteGameIssue(props.id)}
@@ -41,12 +50,13 @@ export const GameIssueCard = (props: Props) => {
         />
 
         <GameChip
-          className={'flex justify-center items-center border-gray-800 cursor-pointer'}
+          onClick={selectIssueToVote}
+          className={'flex justify-center items-center border-gray-800 cursor-pointer uppercase'}
         >
           <span className="material-symbols-outlined text-xs mr-1">
             play_arrow
           </span>
-          START VOTING
+          { t('start_voting') }
         </GameChip>
       </div>
     </AppCard>

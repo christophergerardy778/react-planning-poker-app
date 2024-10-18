@@ -1,10 +1,11 @@
 import { AllGamesRepository } from '../../domain/AllGamesRepository.ts';
 import { Game } from '../../domain/Game.ts';
 import { injectable } from 'inversify';
-import { addDoc, doc, getDoc } from 'firebase/firestore';
+import { addDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { gameCollection } from '../../../../firebase/firestore.ts';
 import { CreateNewGame } from '../../domain/CreateNewGame.ts';
 import { firestore } from '../../../../firebase/firebase.ts';
+import { SelectIssueIdToGame } from '../../domain/SelectIssueIdToGame.ts';
 
 @injectable()
 export class AllGamesFirebaseRepository implements AllGamesRepository {
@@ -20,15 +21,9 @@ export class AllGamesFirebaseRepository implements AllGamesRepository {
   }
 
   async findGameById(gameId: Game['id']): Promise<Game | null> {
-    const gameDocReference = doc(
-      firestore,
-      this.COLLECTION_NAME,
-      gameId,
-    );
+    const gameDocReference = doc(firestore, this.COLLECTION_NAME, gameId);
 
-    const docSnap = await getDoc(
-      gameDocReference
-    );
+    const docSnap = await getDoc(gameDocReference);
 
     if (!docSnap.exists()) {
       return null;
@@ -41,6 +36,17 @@ export class AllGamesFirebaseRepository implements AllGamesRepository {
       name: data.name,
       user_id: data.user_id,
       voting_system: data.voting_system,
+      selectedIssueId: data.selectedIssueId,
     };
+  }
+
+  async selectIssueToVote(payload: SelectIssueIdToGame): Promise<void> {
+    const gameDocReference = doc(firestore, this.COLLECTION_NAME, payload.gameId);
+    const docSnap = await getDoc(gameDocReference);
+
+    await updateDoc(gameDocReference, {
+      ...docSnap.data(),
+      selectedIssueId: payload.issueId,
+    });
   }
 }
