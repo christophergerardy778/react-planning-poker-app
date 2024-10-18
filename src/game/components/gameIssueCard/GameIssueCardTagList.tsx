@@ -1,8 +1,9 @@
 import { GameChip } from '../../pages/GameChip.tsx';
 import { GameIssueCardAddTag } from './GameIssueCardAddTag.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GameIssue } from '../../../core/gameIssue/domain/GameIssue.ts';
 import { useGame } from '../../hooks/useGame.ts';
+import { useIssueOnVoting } from '../../hooks/useIssueOnVoting.ts';
 
 type Props = {
   id: GameIssue['id'];
@@ -10,9 +11,9 @@ type Props = {
 };
 
 export const GameIssueCardTagList = (props: Props) => {
-  const [isIssueOnVoting, setIsIssueOnVoating] = useState(false);
-  const [showAddTagForm, setShowAddTagForm] = useState(false);
-  const { gameSelector, removeTagToIssue } = useGame();
+  const { removeTagToIssue } = useGame();
+  const { isIssueOnVoting } = useIssueOnVoting(props.id);
+  const [ showAddTagForm, setShowAddTagForm ] = useState(false);
 
   const removeTag = (tagName: string) => {
     removeTagToIssue({
@@ -20,16 +21,6 @@ export const GameIssueCardTagList = (props: Props) => {
       issueId: props.id,
     })
   };
-
-  useEffect(() => {
-    const { game, gameIssues } = gameSelector;
-
-    const gameIssueSelected = gameIssues.find(
-      (gameIssue) => gameIssue.id === game!.selectedIssueId
-    );
-
-    setIsIssueOnVoating(gameIssueSelected !== undefined);
-  }, [gameSelector.game, gameSelector.gameIssues]);
 
   return (
     <div className={'flex flex-col gap-2'}>
@@ -44,7 +35,7 @@ export const GameIssueCardTagList = (props: Props) => {
           </GameChip>
         ))}
 
-        {!showAddTagForm && (
+        {!showAddTagForm && !isIssueOnVoting && (
           <GameChip
             onClick={() => setShowAddTagForm(true)}
             className={'!border-gray-300 text-gray-700 cursor-pointer'}
@@ -59,10 +50,12 @@ export const GameIssueCardTagList = (props: Props) => {
         )}
       </div>
 
-      {showAddTagForm && <GameIssueCardAddTag
-        id={props.id}
-        onCancel={() => setShowAddTagForm(false)}
-      />}
+      {showAddTagForm && (
+        <GameIssueCardAddTag
+          id={props.id}
+          onCancel={() => setShowAddTagForm(false)}
+        />
+      )}
     </div>
   );
 };
