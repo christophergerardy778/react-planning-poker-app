@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
-import { gameTypes } from '../infrastructure/di/GameTypes.ts';
-import { type AllGamesRepository } from '../domain/AllGamesRepository.ts';
-import { SelectIssueIdToGame } from '../domain/SelectIssueIdToGame.ts';
+import { gameTypes } from '../../infrastructure/di/GameTypes.ts';
+import { type AllGamesRepository } from '../../domain/AllGamesRepository.ts';
+import { SelectIssueIdToGame } from '../../domain/SelectIssueIdToGame.ts';
 
 @injectable()
 export class UpdateGameIssueToVote {

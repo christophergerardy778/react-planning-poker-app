@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
-import { type AllGamesRepository } from '../domain/AllGamesRepository.ts';
-import { gameTypes } from '../infrastructure/di/GameTypes.ts';
-import { Game } from '../domain/Game.ts';
-import { GameNotFound } from '../domain/exception/GameNotFound.ts';
+import { type AllGamesRepository } from '../../domain/AllGamesRepository.ts';
+import { gameTypes } from '../../infrastructure/di/GameTypes.ts';
+import { Game } from '../../domain/Game.ts';
+import { GameNotFound } from '../../domain/exception/GameNotFound.ts';
 
 @injectable()
 export class FindGameById {

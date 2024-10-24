@@ -1,7 +1,7 @@
 import { Dispatch } from '@reduxjs/toolkit';
 import { container } from '../../core/container.ts';
 import { gameTypes } from '../../core/game/infrastructure/di/GameTypes.ts';
-import { CreateGame } from '../../core/game/app/CreateGame.ts';
+import { CreateGame } from '../../core/game/app/create/CreateGame.ts';
 import { CreateNewGame } from '../../core/game/domain/CreateNewGame.ts';
 import {
   addGameIssue, deleteGameIssueById, selectGameIssueToCurrentGame,
@@ -12,7 +12,7 @@ import {
 } from './gameSlice.ts';
 import { NavigateFunction } from 'react-router-dom';
 import { Game } from '../../core/game/domain/Game.ts';
-import { FindGameById } from '../../core/game/app/FindGameById.ts';
+import { FindGameById } from '../../core/game/app/find/FindGameById.ts';
 import {
   CreateGameIssue
 } from '../../core/gameIssue/domain/CreateGameIssue.ts';
@@ -39,10 +39,12 @@ import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
 import { DeleteGameIssue } from '../../core/gameIssue/app/DeleteGameIssue.ts';
 import {
   UpdateGameIssueToVote
-} from '../../core/game/app/UpdateGameIssueToVote.ts';
+} from '../../core/game/app/update/UpdateGameIssueToVote.ts';
 import {
   SelectIssueIdToGame
 } from '../../core/game/domain/SelectIssueIdToGame.ts';
+import type { CreateGameVote } from '../../core/game/domain/CreateGameVote.ts';
+import { UpsetGameVote } from '../../core/game/app/update/UpsetGameVote.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -135,4 +137,9 @@ export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => asyn
   await updateGameIssueToVote.run(payload);
 
   dispatch(selectGameIssueToCurrentGame(payload.issueId));
+}
+
+export const startUpsertGameVote = (payload: CreateGameVote) => async (dispatch: Dispatch) => {
+  const upsertGameVote = container.get<UpsetGameVote>(gameTypes.upsetGameVote);
+  await upsertGameVote.run(payload);
 }

@@ -20,6 +20,12 @@ export const Game = () => {
   return (
     <div className={'container mx-auto px-4 game-height-wrapper'}>
       <div className={'grid grid-cols-12 gap-x-8 game-height-wrapper'}>
+        <div className={'col-start-1 col-end-4'}>
+          <h1 className={'text-2xl font-semibold'}>
+            Participantes
+          </h1>
+        </div>
+
         <div className={'col-start-4 col-end-10'}>
           <div className={'flex flex-col h-full justify-between'}>
             <h1 className={'text-4xl font-semibold mb-7'}>
@@ -30,10 +36,10 @@ export const Game = () => {
 
             <div
               className={'flex w-full h-full justify-center items-center'}
-            >
-            </div>
+            ></div>
 
             <GameVotingCards
+              visible={!!gameSelector.game?.selectedIssueId}
               voteSystem={gameSelector.game?.voting_system}
             />
           </div>
