@@ -13,6 +13,7 @@ import { CreateVote } from '../../app/create/CreateVote.ts';
 import { FindGameVote } from '../../app/find/FindGameVote.ts';
 import { UpsetGameVote } from '../../app/update/UpsetGameVote.ts';
 import { UpdateGameVote } from '../../app/update/UpdateGameVote.ts';
+import { GetAllVotesByIssueId } from '../../app/get/GetAllVotesByIssueId.ts';
 
 export const gameContainer = new ContainerModule((bind) => {
   bind<AllGamesRepository>(gameTypes.allGamesRepository).to(
@@ -49,5 +50,9 @@ export const gameContainer = new ContainerModule((bind) => {
 
   bind<UpdateGameIssueToVote>(gameTypes.updateGameIssueToVote).to(
     UpdateGameIssueToVote
+  );
+
+  bind<GetAllVotesByIssueId>(gameTypes.getAllVotesByIssueId).to(
+    GetAllVotesByIssueId
   );
 });

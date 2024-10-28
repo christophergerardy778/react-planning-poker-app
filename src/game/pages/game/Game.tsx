@@ -8,7 +8,12 @@ import { GameIssueSelection } from '../../components/GameIssueSelection.tsx';
 
 export const Game = () => {
   const params = useParams();
-  const { gameSelector, findGameById, getGameIssuesByGameId } = useGame();
+  const {
+    gameSelector,
+    findGameById,
+    getGameIssuesByGameId,
+    getAllIssueVotes
+  } = useGame();
 
   useEffect(() => {
     if (!gameSelector.game) {
@@ -16,6 +21,12 @@ export const Game = () => {
       getGameIssuesByGameId(params.id!);
     }
   }, [params.id]);
+
+  useEffect(() => {
+    if (gameSelector.game?.selectedIssueId) {
+      getAllIssueVotes(gameSelector.game.selectedIssueId)
+    }
+  }, [gameSelector.game]);
 
   return (
     <div className={'container mx-auto px-4 game-height-wrapper'}>

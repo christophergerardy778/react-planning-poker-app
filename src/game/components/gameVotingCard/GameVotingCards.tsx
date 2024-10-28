@@ -6,6 +6,8 @@ import { GameVotingCard } from './GameVotingCard.tsx';
 import { GameVotingSystem } from '../../../core/game/domain/GameVotingSystem.ts';
 import { useGame } from '../../hooks/useGame.ts';
 import { useAuth } from '../../../auth/hooks/useAuth.ts';
+import { useEffect, useState } from 'react';
+import { GameVote } from '../../../core/game/domain/GameVote.ts';
 
 type Props = {
   visible?: boolean
@@ -15,7 +17,20 @@ type Props = {
 export const GameVotingCards = (props: Props) => {
   const { authSelector } = useAuth();
   const { gameSelector, voteForIssue } = useGame();
+  const [gameVote, setGameVote] = useState<GameVote>({} as GameVote);
   const { voteSystem = GameSystemVoteType.FIBONACCI } = props;
+
+  useEffect(() => {
+    if (gameSelector.game?.selectedIssueId) {
+      const voteFounded = gameSelector.votes.find(
+        (vote) => vote.userId === authSelector.user.id
+      );
+
+      if (voteFounded) {
+        setGameVote(voteFounded);
+      }
+    }
+  }, [gameSelector.votes]);
 
   const voteIssue = (vote: string | number) => {
     voteForIssue({
@@ -40,6 +55,7 @@ export const GameVotingCards = (props: Props) => {
           gameVoteTypes[voteSystem].map((vote, index) => (
             <GameVotingCard
               key={`${vote}_${index}`}
+              isSelected={String(vote) === gameVote.vote}
               onClick={() => voteIssue(vote)}
             >
               { vote }

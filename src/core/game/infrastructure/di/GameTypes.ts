@@ -11,4 +11,6 @@ export const gameTypes = {
   findGameById: Symbol('findGameById'),
   findGameVote: Symbol('findGameVote'),
   updateGameIssueToVote: Symbol('updateGameIssueToVote'),
+
+  getAllVotesByIssueId: Symbol('getAllVotesByIssueId'),
 };

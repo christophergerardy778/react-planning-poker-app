@@ -19,8 +19,9 @@ export class AllGameVotesFirebaseRepository implements AllGameVotesRepository {
     const docReference = await addDoc(gameVotesCollection, payload);
 
     return {
-      ...payload,
       id: docReference.id,
+      userId: payload.userId,
+      issueId: payload.issueId,
       vote: payload.vote.toString(),
     };
   }
@@ -75,9 +76,29 @@ export class AllGameVotesFirebaseRepository implements AllGameVotesRepository {
     });
 
     return {
-      ...docData as any,
+      ...(docData as any),
       id: docReference.id,
       vote: payload.vote.toString(),
-    }
+    };
+  }
+
+  async getAllVotesByIssueId(issueId: string): Promise<GameVote[]> {
+    const gameVotes: GameVote[] = [];
+
+    const findQuery = query(
+      gameVotesCollection,
+      where('issueId', '==', issueId)
+    );
+
+    const querySnapshot = await getDocs(findQuery);
+
+    querySnapshot.forEach((voteDoc) => {
+      gameVotes.push({
+        id: voteDoc.id,
+        ...(voteDoc.data() as any),
+      })
+    });
+
+    return gameVotes;
   }
 }

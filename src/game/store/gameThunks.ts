@@ -7,7 +7,7 @@ import {
   addGameIssue, deleteGameIssueById, selectGameIssueToCurrentGame,
   setCurrentGame,
   setGameIssues,
-  setLoading,
+  setLoading, setVotes,
   showGameError, updateGameIssue,
 } from './gameSlice.ts';
 import { NavigateFunction } from 'react-router-dom';
@@ -45,6 +45,9 @@ import {
 } from '../../core/game/domain/SelectIssueIdToGame.ts';
 import type { CreateGameVote } from '../../core/game/domain/CreateGameVote.ts';
 import { UpsetGameVote } from '../../core/game/app/update/UpsetGameVote.ts';
+import {
+  GetAllVotesByIssueId
+} from '../../core/game/app/get/GetAllVotesByIssueId.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -139,7 +142,16 @@ export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => asyn
   dispatch(selectGameIssueToCurrentGame(payload.issueId));
 }
 
-export const startUpsertGameVote = (payload: CreateGameVote) => async (dispatch: Dispatch) => {
+export const startUpsertGameVote = (payload: CreateGameVote) => async () => {
   const upsertGameVote = container.get<UpsetGameVote>(gameTypes.upsetGameVote);
   await upsertGameVote.run(payload);
+}
+
+export const startFetchGameVotesByIssueId = (gameIssueId: string) => async (dispatch: Dispatch) => {
+  const fetchGameVotesByIssueId = container.get<GetAllVotesByIssueId>(
+    gameTypes.getAllVotesByIssueId
+  );
+
+  const votes = await fetchGameVotesByIssueId.run(gameIssueId);
+  dispatch(setVotes(votes));
 }

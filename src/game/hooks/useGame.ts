@@ -4,7 +4,7 @@ import {
   startAddTagToGameIssue,
   startCreateGameIssue,
   startCreateNewGame,
-  startDeleteGameIssue,
+  startDeleteGameIssue, startFetchGameVotesByIssueId,
   startFindGameById,
   startGetAllIssuesByGameId,
   startRemoveTagToGameIssue,
@@ -84,6 +84,10 @@ export const useGame = () => {
     dispatch(startUpsertGameVote(payload) as any);
   }
 
+  const getAllIssueVotes = (issueId: string) => {
+    dispatch(startFetchGameVotesByIssueId(issueId) as any);
+  }
+
   return {
     gameSelector,
     createGame,
@@ -96,5 +100,6 @@ export const useGame = () => {
     removeTagToIssue,
     selectIssueToVoteInGame,
     voteForIssue,
+    getAllIssueVotes,
   }
 }

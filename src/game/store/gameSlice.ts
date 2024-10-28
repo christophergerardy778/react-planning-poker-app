@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Game } from '../../core/game/domain/Game.ts';
 import { GameIssue } from '../../core/gameIssue/domain/GameIssue.ts';
+import { GameVote } from '../../core/game/domain/GameVote.ts';
 
 export type GameState = {
   game: Game | null,
@@ -11,6 +12,7 @@ export type GameState = {
     visible: boolean,
     error: string,
   },
+  votes: GameVote[],
 }
 
 const initialState: GameState = {
@@ -22,6 +24,7 @@ const initialState: GameState = {
     error: '',
     visible: false,
   },
+  votes: [],
 };
 
 export const gameSlice = createSlice({
@@ -76,6 +79,10 @@ export const gameSlice = createSlice({
 
     selectGameIssueToCurrentGame(state, action) {
       state.game!.selectedIssueId = action.payload;
+    },
+
+    setVotes(state, action) {
+      state.votes = action.payload;
     }
   },
 });
@@ -91,5 +98,6 @@ export const {
   updateGameIssue,
   deleteGameIssueById,
   selectGameIssueToCurrentGame,
+  setVotes,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;
