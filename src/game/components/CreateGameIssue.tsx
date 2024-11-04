@@ -32,7 +32,7 @@ export const CreateGameIssue = () => {
 
       formik.resetForm();
       hideGameIssueForm();
-    }
+    },
   });
 
   return (

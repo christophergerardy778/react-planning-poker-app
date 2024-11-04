@@ -4,11 +4,10 @@ import { gameTypes } from '../../core/game/infrastructure/di/GameTypes.ts';
 import { CreateGame } from '../../core/game/app/create/CreateGame.ts';
 import { CreateNewGame } from '../../core/game/domain/CreateNewGame.ts';
 import {
-  addGameIssue, deleteGameIssueById, selectGameIssueToCurrentGame,
   setCurrentGame,
   setGameIssues,
   setLoading, setVotes,
-  showGameError, updateGameIssue,
+  showGameError,
 } from './gameSlice.ts';
 import { NavigateFunction } from 'react-router-dom';
 import { Game } from '../../core/game/domain/Game.ts';
@@ -48,6 +47,7 @@ import { UpsetGameVote } from '../../core/game/app/update/UpsetGameVote.ts';
 import {
   GetAllVotesByIssueId
 } from '../../core/game/app/get/GetAllVotesByIssueId.ts';
+import { socket } from '../hooks/useSocket.ts';
 
 export const startCreateNewGame = (game: CreateNewGame, navigate: NavigateFunction) => async (dispatch: Dispatch) => {
   const createGame = container.get<CreateGame>(gameTypes.createGame);
@@ -80,19 +80,19 @@ export const startFindGameById = (gameId: Game['id']) => async (dispatch: Dispat
   }
 }
 
-export const startCreateGameIssue = (gameIssue: Omit<CreateGameIssue, 'state' | 'tags'>) => async (dispatch: Dispatch) => {
+export const startCreateGameIssue = (gameIssue: Omit<CreateGameIssue, 'state' | 'tags'>) => async () => {
   const createGameIssue = container.get<CreateIssueGame>(
     gameIssueTypes.createIssueGame
   );
 
-  const newGameIssue = await createGameIssue.run({
+  await createGameIssue.run({
     gameId: gameIssue.gameId,
     state: 'pending',
     description: gameIssue.description,
     tags: [],
   });
 
-  dispatch(addGameIssue(newGameIssue));
+  socket.emit("game-action", { roomId: gameIssue.gameId })
 }
 
 export const startGetAllIssuesByGameId = (gameId: Game['id']) => async (dispatch: Dispatch) => {
@@ -105,41 +105,44 @@ export const startGetAllIssuesByGameId = (gameId: Game['id']) => async (dispatch
   dispatch(setGameIssues(gameIssues));
 }
 
-export const startAddTagToGameIssue = (params: { payload: CreateGameIssueTag, callback: any }) => async (dispatch: Dispatch) => {
+export const startAddTagToGameIssue = (gameId: Game['id'], params: { payload: CreateGameIssueTag, callback: any }) => async () => {
   const addTagToIssue = container.get<AddTagToGameIssue>(gameIssueTypes.addTagToGameIssue);
-  const gameIssue = await addTagToIssue.run(params.payload);
-  dispatch(updateGameIssue({ id: params.payload.issueId, gameIssue }));
+  await addTagToIssue.run(params.payload);
+  // dispatch(updateGameIssue({ id: params.payload.issueId, gameIssue }));
+  socket.emit("game-action", { roomId: gameId });
   params.callback();
 }
 
-export const startRemoveTagToGameIssue = (params: RemoveGameIssueTag) => async (dispatch: Dispatch) => {
+export const startRemoveTagToGameIssue = (gameId: Game['id'], params: RemoveGameIssueTag) => async () => {
   const removeTagToGameIssue = container.get<RemoveTagToGameIssue>(
     gameIssueTypes.removeTagToGameIssue
   );
 
-  const gameIssue = await removeTagToGameIssue.run(params);
+  await removeTagToGameIssue.run(params);
 
-  dispatch(updateGameIssue({ id: params.issueId, gameIssue }));
+  socket.emit("game-action", { roomId: gameId })
+  // dispatch(updateGameIssue({ id: params.issueId, gameIssue }));
 }
 
-export const startDeleteGameIssue = (gameIssueId: GameIssue['id']) => async (dispatch: Dispatch) => {
+export const startDeleteGameIssue = (gameId: Game['id'], gameIssueId: GameIssue['id']) => async () => {
   const deleteGameIssue = container.get<DeleteGameIssue>(
     gameIssueTypes.deleteGameIssue
   );
 
   await deleteGameIssue.run(gameIssueId);
 
-  dispatch(deleteGameIssueById(gameIssueId))
+  socket.emit("game-action", { roomId: gameId });
 }
 
-export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => async (dispatch: Dispatch) => {
+export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => async () => {
   const updateGameIssueToVote = container.get<UpdateGameIssueToVote>(
     gameTypes.updateGameIssueToVote
   );
 
   await updateGameIssueToVote.run(payload);
 
-  dispatch(selectGameIssueToCurrentGame(payload.issueId));
+  socket.emit("game-action", { roomId: payload.gameId });
+  // dispatch(selectGameIssueToCurrentGame(payload.issueId));
 }
 
 export const startUpsertGameVote = (payload: CreateGameVote) => async () => {

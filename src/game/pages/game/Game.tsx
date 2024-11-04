@@ -5,9 +5,12 @@ import { useParams } from 'react-router-dom';
 import { GameVotingCards } from '../../components/gameVotingCard/GameVotingCards.tsx';
 import { GameIssueCardList } from '../../components/gameIssueCard/gameIssueCardList/GameIssueCardList.tsx';
 import { GameIssueSelection } from '../../components/GameIssueSelection.tsx';
+import { socket, useSocket } from '../../hooks/useSocket.ts';
 
 export const Game = () => {
   const params = useParams();
+  const { joinToRoom } = useSocket();
+
   const {
     gameSelector,
     findGameById,
@@ -26,6 +29,17 @@ export const Game = () => {
     if (gameSelector.game?.selectedIssueId) {
       getAllIssueVotes(gameSelector.game.selectedIssueId)
     }
+
+    joinToRoom();
+
+    socket.on("fetch-game-data", () => {
+      findGameById(params.id!);
+      getGameIssuesByGameId(params.id!);
+
+      if (gameSelector.game?.selectedIssueId) {
+        getAllIssueVotes(gameSelector.game.selectedIssueId)
+      }
+    })
   }, [gameSelector.game]);
 
   return (

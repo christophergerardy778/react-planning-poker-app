@@ -65,15 +65,15 @@ export const useGame = () => {
   }
 
   const addTagToIssue = (params: { payload: CreateGameIssueTag, callback: any }) => {
-    dispatch(startAddTagToGameIssue(params) as any);
+    dispatch(startAddTagToGameIssue(gameSelector.game!.id, params) as any);
   }
 
   const removeTagToIssue = (params: RemoveGameIssueTag) => {
-    dispatch(startRemoveTagToGameIssue(params) as any);
+    dispatch(startRemoveTagToGameIssue(gameSelector.game!.id, params) as any);
   }
 
   const deleteGameIssue = (gameIssueId: GameIssue['id']) => {
-    dispatch(startDeleteGameIssue(gameIssueId) as any);
+    dispatch(startDeleteGameIssue(gameSelector.game!.id, gameIssueId) as any);
   }
 
   const selectIssueToVoteInGame = (payload: SelectIssueIdToGame) => {
