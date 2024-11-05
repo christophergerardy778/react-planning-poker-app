@@ -33,6 +33,12 @@ export const Game = () => {
     e.returnValue = '';
   }
 
+  const handlePageShow = (event: any) => {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  }
+
   useEffect(() => {
     if (!gameSelector.game) {
       findGameById(params.id!);
@@ -42,6 +48,7 @@ export const Game = () => {
     joinToRoom();
 
     window.addEventListener('beforeunload', handleClose)
+    window.addEventListener('pageshow', handlePageShow)
 
     socket.on("fetch-game-data", () => {
       findGameById(params.id!);
@@ -58,6 +65,7 @@ export const Game = () => {
 
     return () => {
       window.removeEventListener('beforeunload', handleClose)
+      window.removeEventListener('pageshow', handlePageShow)
     }
   }, [params.id]);
 

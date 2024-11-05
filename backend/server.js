@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("leave-room", ({ roomId, userId }) => {
-    console.log('fired');
     if (rooms.length > 0) {
       let room = rooms.find((room) => room.roomId === roomId);
       const user = room.users.find(user => user.userId === userId);
