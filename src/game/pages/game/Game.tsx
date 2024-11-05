@@ -1,15 +1,18 @@
 import './Game.css';
 import { useGame } from '../../hooks/useGame.ts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GameVotingCards } from '../../components/gameVotingCard/GameVotingCards.tsx';
 import { GameIssueCardList } from '../../components/gameIssueCard/gameIssueCardList/GameIssueCardList.tsx';
 import { GameIssueSelection } from '../../components/GameIssueSelection.tsx';
 import { socket, useSocket } from '../../hooks/useSocket.ts';
+import { useAuth } from '../../../auth/hooks/useAuth.ts';
 
 export const Game = () => {
-  const params = useParams();
   const { joinToRoom } = useSocket();
+  const { authSelector } = useAuth();
+  const [participants, setParticipants] = useState([]);
+  const params = useParams();
 
   const {
     gameSelector,
@@ -18,19 +21,27 @@ export const Game = () => {
     getAllIssueVotes
   } = useGame();
 
+  const handleClose = (e: any) => {
+    socket.emit('leave-room', {
+      roomId: params.id,
+      userId: authSelector.user.id,
+    });
+
+    socket.disconnect();
+
+    e.preventDefault();
+    e.returnValue = '';
+  }
+
   useEffect(() => {
     if (!gameSelector.game) {
       findGameById(params.id!);
       getGameIssuesByGameId(params.id!);
     }
-  }, [params.id]);
-
-  useEffect(() => {
-    if (gameSelector.game?.selectedIssueId) {
-      getAllIssueVotes(gameSelector.game.selectedIssueId)
-    }
 
     joinToRoom();
+
+    window.addEventListener('beforeunload', handleClose)
 
     socket.on("fetch-game-data", () => {
       findGameById(params.id!);
@@ -39,7 +50,21 @@ export const Game = () => {
       if (gameSelector.game?.selectedIssueId) {
         getAllIssueVotes(gameSelector.game.selectedIssueId)
       }
+    });
+
+    socket.on("user-joined", (users: any) => {
+      setParticipants(users);
     })
+
+    return () => {
+      window.removeEventListener('beforeunload', handleClose)
+    }
+  }, [params.id]);
+
+  useEffect(() => {
+    if (gameSelector.game?.selectedIssueId) {
+      getAllIssueVotes(gameSelector.game.selectedIssueId)
+    }
   }, [gameSelector.game]);
 
   return (
@@ -49,6 +74,22 @@ export const Game = () => {
           <h1 className={'text-2xl font-semibold'}>
             Participantes
           </h1>
+
+          <div className={'mt-2'}>
+            {participants.map((participant: any) => (
+              <div
+                className={
+                  'py-4 flex items-center gap-3 border-b-gray-300 border-b'
+                }
+                key={participant.userId}
+              >
+                <div
+                  className={'p-4 w-[10px] h-[10px] bg-gray-300 rounded-full'}
+                />
+                {participant.name}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className={'col-start-4 col-end-10'}>
@@ -61,7 +102,7 @@ export const Game = () => {
 
             <div
               className={'flex w-full h-full justify-center items-center'}
-            ></div>
+            />
 
             <GameVotingCards
               visible={!!gameSelector.game?.selectedIssueId}

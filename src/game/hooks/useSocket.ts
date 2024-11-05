@@ -2,7 +2,9 @@ import { io } from 'socket.io-client';
 import { useAuth } from '../../auth/hooks/useAuth.ts';
 import { useParams } from 'react-router-dom';
 
-export const socket = io('http://localhost:4000');
+export const socket = io('http://localhost:4000', {
+  autoConnect: false
+});
 
 export const useSocket = () => {
   const { authSelector } = useAuth();
@@ -10,17 +12,15 @@ export const useSocket = () => {
 
 
   const joinToRoom = () => {
-    if (!socket.connected) {
-      socket.connect();
+    socket.connect();
 
-      socket.on("connect", () => {
-        socket.emit('join-to-room', {
-          roomId: params.id,
-          name: authSelector.user.name,
-          userId: authSelector.user.id,
-        });
+    socket.on("connect", () => {
+      socket.emit('join-to-room', {
+        roomId: params.id,
+        name: authSelector.user.name,
+        userId: authSelector.user.id,
       });
-    }
+    });
   }
 
   const fetchGameData = (callback: any) => {
