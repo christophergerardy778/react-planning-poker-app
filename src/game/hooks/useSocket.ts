@@ -10,7 +10,6 @@ export const useSocket = () => {
   const { authSelector } = useAuth();
   const params = useParams();
 
-
   const joinToRoom = () => {
     socket.connect();
 
