@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const GameIssueCardTagList = (props: Props) => {
-  const { removeTagToIssue } = useGame();
+  const { removeTagToIssue, isGameOwner } = useGame();
   const { isIssueOnVoting } = useIssueOnVoting(props.id);
   const [ showAddTagForm, setShowAddTagForm ] = useState(false);
 
@@ -27,7 +27,7 @@ export const GameIssueCardTagList = (props: Props) => {
       <div className={'flex flex-wrap gap-2'}>
         {props.tags.map((tag, index) => (
           <GameChip
-            clearable={!isIssueOnVoting}
+            clearable={!isIssueOnVoting && isGameOwner}
             key={`${tag}_${index}`}
             onClear={() => removeTag(tag)}
           >
@@ -35,7 +35,7 @@ export const GameIssueCardTagList = (props: Props) => {
           </GameChip>
         ))}
 
-        {!showAddTagForm && !isIssueOnVoting && (
+        {!showAddTagForm && !isIssueOnVoting && isGameOwner && (
           <GameChip
             onClick={() => setShowAddTagForm(true)}
             className={'!border-gray-300 text-gray-700 cursor-pointer'}
@@ -50,7 +50,7 @@ export const GameIssueCardTagList = (props: Props) => {
         )}
       </div>
 
-      {showAddTagForm && (
+      {showAddTagForm && isGameOwner && (
         <GameIssueCardAddTag
           id={props.id}
           onCancel={() => setShowAddTagForm(false)}

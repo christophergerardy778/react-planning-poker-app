@@ -148,6 +148,7 @@ export const startSelectGameIssueToVote = (payload: SelectIssueIdToGame) => asyn
 export const startUpsertGameVote = (payload: CreateGameVote) => async () => {
   const upsertGameVote = container.get<UpsetGameVote>(gameTypes.upsetGameVote);
   await upsertGameVote.run(payload);
+  socket.emit("game-action");
 }
 
 export const startFetchGameVotesByIssueId = (gameIssueId: string) => async (dispatch: Dispatch) => {

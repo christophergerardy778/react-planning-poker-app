@@ -6,7 +6,7 @@ import {
 } from '../GameIssueCardListCreateButton.tsx';
 
 export const GameIssueCardList = () => {
-  const { gameSelector } = useGame();
+  const { gameSelector, isGameOwner } = useGame();
 
   return (
     <div className={'flex flex-col game-issue-card-list-wrapper'}>
@@ -22,11 +22,13 @@ export const GameIssueCardList = () => {
         ))}
       </div>
 
-      <div className={'mb-8 mt-5'}>
-        <GameIssueCardListCreateButton
-          visible={gameSelector.isCreatingGameIssueVisible}
-        />
-      </div>
+      {isGameOwner && (
+        <div className={'mb-8 mt-5'}>
+          <GameIssueCardListCreateButton
+            visible={gameSelector.isCreatingGameIssueVisible}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -28,13 +28,16 @@ export const GameVotingCards = (props: Props) => {
 
       if (voteFounded) {
         setGameVote(voteFounded);
+        return
       }
+
+      setGameVote({} as GameVote)
     }
   }, [gameSelector.votes]);
 
   const voteIssue = (vote: string | number) => {
     voteForIssue({
-      vote,
+      vote: String(vote),
       userId: authSelector.user.id,
       issueId: gameSelector.game!.selectedIssueId!
     })
@@ -55,7 +58,7 @@ export const GameVotingCards = (props: Props) => {
           gameVoteTypes[voteSystem].map((vote, index) => (
             <GameVotingCard
               key={`${vote}_${index}`}
-              isSelected={String(vote) === gameVote.vote}
+              isSelected={String(vote) === String( gameVote.vote)}
               onClick={() => voteIssue(vote)}
             >
               { vote }

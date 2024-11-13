@@ -30,6 +30,7 @@ import {
   SelectIssueIdToGame
 } from '../../core/game/domain/SelectIssueIdToGame.ts';
 import { CreateGameVote } from '../../core/game/domain/CreateGameVote.ts';
+import { useEffect, useState } from 'react';
 
 export type CreateGamePayload = Omit<Game, 'id' | 'user_id'>;
 
@@ -39,6 +40,14 @@ export const useGame = () => {
 
   const authSelector = useSelector((state: any) => state.auth);
   const gameSelector = useSelector<any, GameState>(state => state.game);
+
+  const [isGameOwner, setIsGameOwner] = useState(false);
+
+  useEffect(() => {
+    if (authSelector.user) {
+      setIsGameOwner(gameSelector.game?.user_id === authSelector.user.id)
+    }
+  }, [gameSelector.game, authSelector.user])
 
   const createGame = (game: CreateGamePayload) => {
     dispatch(startCreateNewGame({
@@ -90,6 +99,7 @@ export const useGame = () => {
 
   return {
     gameSelector,
+    isGameOwner,
     createGame,
     findGameById,
     createGameIssue,

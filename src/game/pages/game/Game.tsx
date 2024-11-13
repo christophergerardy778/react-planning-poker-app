@@ -7,6 +7,7 @@ import { GameIssueCardList } from '../../components/gameIssueCard/gameIssueCardL
 import { GameIssueSelection } from '../../components/GameIssueSelection.tsx';
 import { socket, useSocket } from '../../hooks/useSocket.ts';
 import { useAuth } from '../../../auth/hooks/useAuth.ts';
+import { AppCard } from '../../../main/components/AppCard.tsx';
 
 export const Game = () => {
   const { joinToRoom } = useSocket();
@@ -16,6 +17,7 @@ export const Game = () => {
 
   const {
     gameSelector,
+    isGameOwner,
     findGameById,
     getGameIssuesByGameId,
     getAllIssueVotes
@@ -79,9 +81,7 @@ export const Game = () => {
     <div className={'container mx-auto px-4 game-height-wrapper'}>
       <div className={'grid grid-cols-12 gap-x-8 game-height-wrapper'}>
         <div className={'col-start-1 col-end-4'}>
-          <h1 className={'text-2xl font-semibold'}>
-            Participantes
-          </h1>
+          <h1 className={'text-2xl font-semibold'}>Participantes</h1>
 
           <div className={'mt-2'}>
             {participants.map((participant: any) => (
@@ -110,7 +110,15 @@ export const Game = () => {
 
             <div
               className={'flex w-full h-full justify-center items-center'}
-            />
+            >
+              {isGameOwner && (
+                <>
+                  <AppCard>
+                    Game controls
+                  </AppCard>
+                </>
+              )}
+            </div>
 
             <GameVotingCards
               visible={!!gameSelector.game?.selectedIssueId}

@@ -17,7 +17,12 @@ type Props = {
 export const GameIssueCard = (props: Props) => {
   const { t } = useTranslation(["game"]);
   const { isIssueOnVoting } = useIssueOnVoting(props.id);
-  const { gameSelector, deleteGameIssue, selectIssueToVoteInGame } = useGame();
+  const {
+    isGameOwner,
+    gameSelector,
+    deleteGameIssue,
+    selectIssueToVoteInGame,
+  } = useGame();
 
   const selectIssueToVote = () => {
     selectIssueToVoteInGame({
@@ -32,7 +37,7 @@ export const GameIssueCard = (props: Props) => {
         <div className={'flex justify-between items-center'}>
           <GameChip>{t(props.state)}</GameChip>
 
-          {!isIssueOnVoting && (
+          {!isIssueOnVoting && isGameOwner && (
             <button
               onClick={() => deleteGameIssue(props.id)}
               className="material-symbols-outlined text-red-500 cursor-pointer"
@@ -48,7 +53,7 @@ export const GameIssueCard = (props: Props) => {
 
         <GameIssueCardTagList id={props.id} tags={props.tags} />
 
-        {!isIssueOnVoting && (
+        {!isIssueOnVoting && isGameOwner && (
           <GameChip
             onClick={selectIssueToVote}
             className={
